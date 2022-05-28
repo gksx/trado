@@ -7,7 +7,7 @@ public class Trado {
 
     private final TradoHandler tradoHandler;
     private Options options;
-    private EventLoop currentEventLoop;
+    private EventLoop eventLoop;
     
     public Trado(){
         this(new Options());
@@ -38,24 +38,36 @@ public class Trado {
         return this;
     }
 
+    public Trado put(String uri, Action action) {
+        tradoHandler.addAction(uri, "PUT", action);
+        return this;
+    }
+
+    public Trado delete(String uri, Action action) {
+        tradoHandler.addAction(uri, "DELETE", action);
+        return this;
+    }
+
     public void growl(){
         try {   
             System.out.println(banner());
-            currentEventLoop = new EventLoop(options, LogFactory.logger(), tradoHandler);
-            currentEventLoop.start();
+            eventLoop = new EventLoop(options, LogFactory.logger(), tradoHandler);
+            eventLoop.start();
         } catch (Exception e) {
             throw new TradoException("cant growl", e);
         }
     }
 
     public void stop(){
-        currentEventLoop.stop();        
+        eventLoop.stop();        
     }
 
-    public static String banner(){
-        return """
+    public String banner(){
+        return String.format("""
+                <--------------------------->
                 <--------TRADO STARTING----->
-                <----------GRWOLING--------->
-                <-----------WAITING--------->""";
+                <----------GRWOLING!-------->
+                <--------------------------->
+                           >on %d<""", options.port());
     }
 }

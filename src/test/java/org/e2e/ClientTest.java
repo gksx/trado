@@ -9,6 +9,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -31,25 +32,25 @@ public class ClientTest {
 
     @Test
     public void expect_bar_from_controller() throws Exception{
-        var response = empyGetRequest(baseUrl + "/home");
+        var response = getRequest(baseUrl + "/home");
         assertTrue(response.body().contains("bar"));
     }
 
     @Test
     public void expect_200_status() throws Exception {
-        var response = empyGetRequest(baseUrl);
+        var response = getRequest(baseUrl);
         assertEquals(response.statusCode(), 200);
     }
 
     @Test
     public void expect_404_status() throws Exception{
-        var response = empyGetRequest(baseUrl + "/notThere");
+        var response = getRequest(baseUrl + "/notThere");
         assertEquals(response.statusCode(), 404);
     }
 
     @Test
     public void expect_foo_in_response_body() throws Exception {
-        var response = empyGetRequest(baseUrl);
+        var response = getRequest(baseUrl);
         assertTrue(response.body().contains("foo"));
     }
 
@@ -67,7 +68,32 @@ public class ClientTest {
         assertEquals(response.statusCode(), 200);
     }
 
-    private HttpResponse<String> empyGetRequest(String uri) throws Exception{
+    @Test
+    public void some_async_requests_after_another() throws Exception{
+        var numberOfRequests = 100;
+        var array = new CompletableFuture[numberOfRequests];
+        for (int i = 0; i < numberOfRequests; i++) {
+            array[i] = getAsync(baseUrl);    
+        }
+        CompletableFuture.allOf(array).join();
+    }
+
+    private CompletableFuture<HttpResponse<String>> getAsync(String uri) throws Exception{
+
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(uri))
+                .GET()
+                .build();
+
+        return HttpClient.newHttpClient()
+            .sendAsync(request, BodyHandlers.ofString());
+        } catch (Exception e) { 
+            throw e;
+        }
+    }
+
+    private HttpResponse<String> getRequest(String uri) throws Exception{
 
         try {
             HttpRequest request = HttpRequest.newBuilder()

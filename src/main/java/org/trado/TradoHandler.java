@@ -11,18 +11,18 @@ import org.microhttp.Handler;
 import org.microhttp.Request;
 import org.microhttp.Response;
 
-public class TradoHandler implements Handler {
+class TradoHandler implements Handler {
 
     private final Routes routes;
     private final ExecutorService executor;
     private final static TradoLogger tradoLogger = (TradoLogger)LogFactory.logger();
 
-    public TradoHandler() {
+    TradoHandler() {
         this.routes = new Routes();
         this.executor =  Executors.newSingleThreadExecutor();
     }
 
-    public TradoHandler initController(String uri, Class<? extends TradoController> controller){
+    TradoHandler initController(String uri, Class<? extends TradoController> controller){
         try {    
             var controller1  = (TradoController)controller.getDeclaredConstructors()[0].newInstance();
             for (Method m : controller.getMethods()) {
@@ -48,7 +48,7 @@ public class TradoHandler implements Handler {
         return this;
     }
 
-    public TradoHandler addAction(String uri, String method, Action action){
+    TradoHandler addAction(String uri, String method, Action action){
         routes.add(uri, method, action);
         return this;
     }
@@ -72,8 +72,7 @@ public class TradoHandler implements Handler {
             } catch (Exception e) {
                 tradoLogger.log(e, "error internal handle");
                 callback.accept(TradoController.notFound().toResponse());
-            }
-            
+            }            
         };
     }
 }
