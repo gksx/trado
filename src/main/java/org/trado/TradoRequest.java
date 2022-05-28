@@ -30,6 +30,7 @@ public class TradoRequest {
             }
         }
         catch (Exception ex) {
+            //supress we dont care about malformed url params
         }
     }
 
