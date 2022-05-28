@@ -12,12 +12,11 @@ public class TestUtil {
         trado = new Trado()
             .controller("/home", HomeController.class)
             .get("/", (req) -> {
-                return TradoResponse.of(String.class)
-                    .content("foo")
+                return TradoResponse.content("foo")
                     .build();
             })
             .post("/echo", (req) -> {
-                return TradoResponse.of(String.class)
+                return TradoResponse
                     .content(new String(req.request().body()))
                     .build();
             })

@@ -9,15 +9,13 @@ public class HomeController extends TradoController {
 
     @HttpMethod("GET")
     public TradoResponse index(TradoRequest request){
-        return TradoResponse.of(String.class)
-            .content("bar")
+        return TradoResponse.content("bar")
             .build();
     }
 
     @HttpMethod("POST")
     public TradoResponse echo(TradoRequest request){
-        return TradoResponse.of(String.class)
-                .content(new String(request.request().body()))
+        return TradoResponse.content(new String(request.request().body()))
                 .build();
     }
 }

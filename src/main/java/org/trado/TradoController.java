@@ -7,8 +7,7 @@ public abstract class TradoController {
     protected static final TradoLogger logger = LogFactory.tradoLogger();
 
     public static TradoResponse notFound(){
-        return TradoResponse.of(String.class)
-            .content(errorPage)
+        return TradoResponse.content(errorPage)
             .statusCode(404)
             .build();
     }
