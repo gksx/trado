@@ -65,7 +65,7 @@ public class TradoHandler implements Handler {
             try {
                 Response response = routes
                     .get(request.uri(), request.method())
-                    .map(a -> a.handle(request).toResponse())
+                    .map(a -> a.handle(new TradoRequest(request)).toResponse())
                     .orElse(TradoController.notFound().toResponse());
                 
                 callback.accept(response);    

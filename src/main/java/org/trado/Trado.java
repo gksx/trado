@@ -28,8 +28,13 @@ public class Trado {
         return this;
     }
 
-    public Trado get(String path, Action action) {
-        tradoHandler.addAction(path, "GET" ,action);
+    public Trado get(String uri, Action action) {
+        tradoHandler.addAction(uri, "GET" ,action);
+        return this;
+    }
+
+    public Trado post(String uri, Action action) {
+        tradoHandler.addAction(uri, "POST", action);
         return this;
     }
 
@@ -51,7 +56,6 @@ public class Trado {
         return """
                 <--------TRADO STARTING----->
                 <----------GRWOLING--------->
-                <-----------WAITING--------->
-                """;
+                <-----------WAITING--------->""";
     }
 }

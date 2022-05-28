@@ -10,7 +10,7 @@ public class TradoResponse {
     private HttpStatus httpStatus = HttpStatus.OK;
     private String contentType = ContentType.TEXT_HTML;
     private Object content;
-    private Type type;
+    private Type type = String.class;
     
     private TradoResponse(Type type) {
         this.type = type;

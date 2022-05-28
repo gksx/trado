@@ -9,6 +9,5 @@ public class TradoException extends RuntimeException {
     public TradoException(String message, Throwable cause) {
         super(message, cause);
     }
-    
 }
 

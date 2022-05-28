@@ -1,15 +1,23 @@
 package org.controller;
 
-import org.microhttp.Request;
 import org.trado.HttpMethod;
 import org.trado.TradoController;
+import org.trado.TradoRequest;
 import org.trado.TradoResponse;
 
 public class HomeController extends TradoController {
+
     @HttpMethod("GET")
-    public TradoResponse index(Request request){
+    public TradoResponse index(TradoRequest request){
         return TradoResponse.of(String.class)
             .content("bar")
             .build();
+    }
+
+    @HttpMethod("POST")
+    public TradoResponse echo(TradoRequest request){
+        return TradoResponse.of(String.class)
+                .content(new String(request.request().body()))
+                .build();
     }
 }

@@ -9,6 +9,7 @@ import org.microhttp.LogEntry;
 import org.microhttp.Logger;
 
 public class TradoTraceLogger implements Logger, TradoLogger {
+    
     private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 
     @Override

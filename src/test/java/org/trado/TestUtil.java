@@ -4,7 +4,7 @@ import org.controller.HomeController;
 
 public class TestUtil {
     
-    static Thread currentThread;
+    static Thread serverThread;
     static Trado trado;
     public static void startInstance(){
         trado = new Trado()
@@ -14,20 +14,25 @@ public class TestUtil {
                     .content("foo")
                     .build();
             })
+            .post("/echo", (req) -> {
+                return TradoResponse.of(String.class)
+                    .content(new String(req.request().body()))
+                    .build();
+            })
             .port(8080);
             
-      currentThread = new Thread(trado::growl);
-      currentThread.start();
+      serverThread = new Thread(trado::growl);
+      serverThread.start();
     }
 
     public static void stop() {
-        System.out.println("stopping " + currentThread.getId());
+        System.out.println("stopping " + serverThread.getId());
         trado.stop();
         try {
-            currentThread.join();
+            serverThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            currentThread.interrupt();
         }
+        System.out.println("stopped thread and trado-server");
     }
 }
