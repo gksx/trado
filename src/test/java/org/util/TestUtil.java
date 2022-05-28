@@ -1,6 +1,8 @@
-package org.trado;
+package org.util;
 
 import org.controller.HomeController;
+import org.trado.Trado;
+import org.trado.TradoResponse;
 
 public class TestUtil {
     

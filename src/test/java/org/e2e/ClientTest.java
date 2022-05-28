@@ -1,4 +1,4 @@
-package org.trado.e2e;
+package org.e2e;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -13,7 +13,7 @@ import java.net.http.HttpResponse.BodyHandlers;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.trado.TestUtil;
+import org.util.TestUtil;
 
 public class ClientTest {
 
