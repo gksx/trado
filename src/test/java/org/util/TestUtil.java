@@ -20,6 +20,11 @@ public class TestUtil {
                     .content(new String(req.request().body()))
                     .build();
             })
+            .get("/empty", (req) -> {
+                return TradoResponse
+                    .empty()
+                    .build();
+            })
             .port(8080);
             
       serverThread = new Thread(trado::growl);

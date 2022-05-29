@@ -6,7 +6,8 @@ public enum HttpStatus {
     
     OK(200, "OK"),
     BAD_REQUEST(400, "Bad Request"),
-    NOT_FOUND(404, "Not Found")
+    NOT_FOUND(404, "Not Found"), 
+    IM_A_TEAPOT(418, "I'm a teapot")
     ;
 
     private final int statusCode;

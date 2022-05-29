@@ -40,6 +40,7 @@ public class ClientTest {
     public void expect_200_status() throws Exception {
         var response = getRequest(baseUrl);
         assertEquals(response.statusCode(), 200);
+        assertTrue(response.headers().firstValue("Content-Type").isPresent());
     }
 
     @Test
@@ -65,6 +66,13 @@ public class ClientTest {
     public void excpect_echo_in_response_body_from_action() throws Exception {
         var response = postRequest("hello!", baseUrl + "/echo");
         assertTrue(response.body().equalsIgnoreCase("hello!"));
+        assertEquals(response.statusCode(), 200);
+    }
+
+    @Test
+    public void expect_empty_response() throws Exception {
+        var response = getRequest(baseUrl + "/empty");
+        assertTrue(response.body().length() == 0);
         assertEquals(response.statusCode(), 200);
     }
 

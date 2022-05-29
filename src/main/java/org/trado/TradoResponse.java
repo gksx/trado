@@ -1,16 +1,23 @@
 package org.trado;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.microhttp.Header;
 import org.microhttp.Response;
 
 public class TradoResponse {
+    
     private HttpStatus httpStatus = HttpStatus.OK;
     private String contentType = ContentType.TEXT_HTML;
+    private final Map<String, String> headers;
     private byte[] content;
+
     private TradoResponse(byte[] content) {
         this.content = content;
+        headers = new HashMap<>();
+        headers.put("Content-Type", contentType);
     }
 
     public HttpStatus httpStatus(){
@@ -25,11 +32,22 @@ public class TradoResponse {
         return new Builder(content.getBytes());
     }
 
+    public static Builder empty() {
+        return new Builder(new byte[0]);
+    }
+
+    private List<Header> toHeaders(){
+        return headers.entrySet()
+            .stream()
+            .map(a -> new Header(a.getKey(), a.getValue()))
+            .toList();
+    }
+
     public Response toResponse(){
         return new Response(
             httpStatus.code(),
             httpStatus.reason(),
-            List.of(new Header("Content-Type", contentType)),
+            toHeaders(),
             content);
     }
 
@@ -48,8 +66,18 @@ public class TradoResponse {
             return this;
         }
 
+        public Builder header(String name, String value){
+            response.headers.put(name, value);
+            return this;
+        }
+
         public Builder badRequest(){
             response.httpStatus = HttpStatus.BAD_REQUEST;
+            return this;
+        }
+
+        public Builder brew(){
+            response.httpStatus = HttpStatus.IM_A_TEAPOT;
             return this;
         }
 
