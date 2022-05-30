@@ -15,16 +15,16 @@ class TradoHandler implements Handler {
 
     private final Routes routes;
     private final ExecutorService executor;
-    private final static TradoLogger tradoLogger = (TradoLogger)LogFactory.logger();
+    private final TradoLogger tradoLogger;
 
-    TradoHandler() {
+    TradoHandler(TradoLogger tradoLogger) {
         this.routes = new Routes();
         this.executor =  Executors.newSingleThreadExecutor();
+        this.tradoLogger = tradoLogger;
     }
 
     TradoHandler initController(String uri, Class<? extends TradoController> controller){
         try {    
-            var controller1  = (TradoController)controller.getDeclaredConstructors()[0].newInstance();
             for (Method m : controller.getMethods()) {
                 HttpMethod httpMethod = m.getAnnotation(HttpMethod.class);
                 if (httpMethod == null){
@@ -34,8 +34,9 @@ class TradoHandler implements Handler {
                 
                 routes.add(uri, httpMethodOnController, (req) -> {
                     try {
+                        var controller1  = (TradoController)controller.getDeclaredConstructors()[0].newInstance();
                         return (TradoResponse)m.invoke(controller1, req);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
                         throw new TradoException("", e);
                     }
                 });
@@ -63,12 +64,12 @@ class TradoHandler implements Handler {
             tradoLogger.log(request.uri() + " " + request.method());
             
             try {
-                Response response = routes
+                TradoResponse tradoResponse = routes
                     .get(request.uri(), request.method())
-                    .map(a -> a.handle(new TradoRequest(request)).toResponse())
-                    .orElse(TradoController.notFound().toResponse());
-                
-                callback.accept(response);    
+                    .map(a -> a.handle(new TradoRequest(request)))
+                    .orElse(TradoController.notFound());
+                tradoLogger.log(tradoResponse.httpStatus().toString());
+                callback.accept(tradoResponse.toResponse());    
             } catch (Exception e) {
                 tradoLogger.log(e, "error internal handle");
                 callback.accept(TradoController.notFound().toResponse());

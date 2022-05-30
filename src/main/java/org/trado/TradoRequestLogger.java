@@ -6,15 +6,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.microhttp.LogEntry;
-import org.microhttp.Logger;
 
-public class TradoTraceLogger implements Logger, TradoLogger {
+public class TradoRequestLogger extends TradoLogger {
     
     private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 
     @Override
     public boolean enabled() {
-        return true;
+        return false;
     }
 
     @Override

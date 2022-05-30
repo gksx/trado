@@ -1,20 +1,27 @@
 package org.trado;
 
 import org.microhttp.EventLoop;
+import org.microhttp.Logger;
 import org.microhttp.Options;
 
 public class Trado {
 
     private final TradoHandler tradoHandler;
-    private Options options;
+    private final Options options;
+    private final Logger logger;
     private EventLoop eventLoop;
     
     public Trado(){
-        this(new Options());
+        this(new Options(), new TradoRequestLogger());
     }
 
-    public Trado(Options options){
-        this.tradoHandler = new TradoHandler();
+    public Trado(TradoLogger tradoLogger) {
+        this(new Options(), tradoLogger);
+    }
+
+    public Trado(Options options, TradoLogger tradoLogger){
+        this.tradoHandler = new TradoHandler(tradoLogger);
+        this.logger = tradoLogger;
         this.options = options;
     }
  
@@ -51,7 +58,7 @@ public class Trado {
     public void growl(){
         try {   
             System.out.println(banner());
-            eventLoop = new EventLoop(options, LogFactory.logger(), tradoHandler);
+            eventLoop = new EventLoop(options, logger, tradoHandler);
             eventLoop.start();
         } catch (Exception e) {
             throw new TradoException("cant growl", e);
