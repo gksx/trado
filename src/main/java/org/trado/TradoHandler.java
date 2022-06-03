@@ -23,29 +23,27 @@ class TradoHandler implements Handler {
         this.tradoLogger = tradoLogger;
     }
 
-    TradoHandler initController(String uri, Class<? extends TradoController> controller){
-        try {    
-            for (Method m : controller.getMethods()) {
-                HttpMethod httpMethod = m.getAnnotation(HttpMethod.class);
-                if (httpMethod == null){
-                    continue;
-                }
-                String httpMethodOnController = httpMethod.value()[0];
-                
-                routes.add(uri, httpMethodOnController, (req) -> {
-                    try {
-                        var controller1  = (TradoController)controller.getDeclaredConstructors()[0].newInstance();
-                        return (TradoResponse)m.invoke(controller1, req);
-                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
-                        throw new TradoException("cant ", e);
-                    }
-                });
+    TradoHandler initController(String uri, Class<? extends TradoController> controller){    
+        for (Method m : controller.getMethods()) {
+            var httpMethod = m.getAnnotation(HttpMethod.class);
+            if (httpMethod == null){
+                continue;
             }
-       
-            } catch (Exception e ) {
+            var httpMethodOnController = httpMethod.value()[0];
+            
+            routes.add(uri, httpMethodOnController, (req) -> {
+                try {
+                    var controller1  = (TradoController)controller
+                        .getDeclaredConstructors()[0]
+                        .newInstance();
 
-            }
-        
+                    return (TradoResponse)m.invoke(controller1, req);
+                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
+                    throw new TradoException("cant ", e);
+                }
+            });
+        }
+    
         return this;
     }
 
@@ -61,19 +59,23 @@ class TradoHandler implements Handler {
 
     private Runnable internalHandle(Request request, Consumer<Response> callback) {
         return () ->  { 
-            tradoLogger.log(request.uri() + " " + request.method());
-            
+            if (tradoLogger.tradoTraceEnabld()) {
+                tradoLogger.log(request.uri() + " " + request.method());
+            }
             try {
-                TradoResponse tradoResponse = routes
+                var tradoResponse = routes
                     .get(request.uri(), request.method())
                     .map(a -> a.handle(new TradoRequest(request)))
                     .orElse(TradoController.notFound());
 
-                tradoLogger.log(tradoResponse.httpStatus().toString());
+                if (tradoLogger.tradoTraceEnabld()) {
+                    tradoLogger.log(tradoResponse.httpStatus().toString());
+                }
+                
                 callback.accept(tradoResponse.toResponse());    
             } catch (Exception e) {
                 
-                TradoResponse tradoResponse = TradoController.internalError();
+                var tradoResponse = TradoController.internalError();
                 tradoLogger.log(tradoResponse.httpStatus().toString());
                 tradoLogger.log(e, "error internal handle");
                 callback.accept(tradoResponse.toResponse());

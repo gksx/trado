@@ -43,4 +43,9 @@ public class TradoRequestLogger extends TradoLogger {
         e.printStackTrace();
         System.out.println("[" + uptime + "] " + entry);
     }
+
+    @Override
+    boolean tradoTraceEnabld() {
+        return true;
+    }
 }

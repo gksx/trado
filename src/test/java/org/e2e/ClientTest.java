@@ -82,7 +82,7 @@ public class ClientTest {
         var numberOfRequests = 100;
         var array = new CompletableFuture[numberOfRequests];
         for (int i = 0; i < numberOfRequests; i++) {
-            array[i] = getAsync(baseUrl);    
+            array[i] = getAsync(baseUrl + "/home");    
         }
 
         CompletableFuture.allOf(array).join();
