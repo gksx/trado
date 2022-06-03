@@ -1,12 +1,16 @@
 package org.trado;
 
-
-
 public abstract class TradoController {
 
     public static TradoResponse notFound(){
         return TradoResponse.content(errorPage)
             .statusCode(404)
+            .build();
+    }
+
+    public static TradoResponse internalError(){
+        return TradoResponse.content(errorPage)
+            .statusCode(500)
             .build();
     }
 

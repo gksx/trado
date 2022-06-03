@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -83,11 +84,11 @@ public class ClientTest {
         for (int i = 0; i < numberOfRequests; i++) {
             array[i] = getAsync(baseUrl);    
         }
+
         CompletableFuture.allOf(array).join();
     }
 
     private CompletableFuture<HttpResponse<String>> getAsync(String uri) throws Exception{
-
         try {
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(uri))

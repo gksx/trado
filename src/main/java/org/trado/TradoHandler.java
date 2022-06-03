@@ -37,7 +37,7 @@ class TradoHandler implements Handler {
                         var controller1  = (TradoController)controller.getDeclaredConstructors()[0].newInstance();
                         return (TradoResponse)m.invoke(controller1, req);
                     } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
-                        throw new TradoException("", e);
+                        throw new TradoException("cant ", e);
                     }
                 });
             }
@@ -68,11 +68,15 @@ class TradoHandler implements Handler {
                     .get(request.uri(), request.method())
                     .map(a -> a.handle(new TradoRequest(request)))
                     .orElse(TradoController.notFound());
+
                 tradoLogger.log(tradoResponse.httpStatus().toString());
                 callback.accept(tradoResponse.toResponse());    
             } catch (Exception e) {
+                
+                TradoResponse tradoResponse = TradoController.internalError();
+                tradoLogger.log(tradoResponse.httpStatus().toString());
                 tradoLogger.log(e, "error internal handle");
-                callback.accept(TradoController.notFound().toResponse());
+                callback.accept(tradoResponse.toResponse());
             }            
         };
     }
