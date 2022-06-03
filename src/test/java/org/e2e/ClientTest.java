@@ -20,6 +20,7 @@ import org.util.TestUtil;
 public class ClientTest {
 
     private static String baseUrl = "http://localhost:8080";
+    HttpClient httpClient = HttpClient.newHttpClient();
 
     @BeforeAll
     public static void initServer(){
@@ -95,7 +96,7 @@ public class ClientTest {
                 .GET()
                 .build();
 
-        return HttpClient.newHttpClient()
+        return httpClient
             .sendAsync(request, BodyHandlers.ofString());
         } catch (Exception e) { 
             throw e;
@@ -106,11 +107,11 @@ public class ClientTest {
 
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(uri))
+                .uri(URI.create(uri))
                 .GET()
                 .build();
 
-        return HttpClient.newHttpClient()
+        return httpClient
             .send(request, BodyHandlers.ofString());
         } catch (Exception e) { 
             throw e;
@@ -120,7 +121,7 @@ public class ClientTest {
     private HttpResponse<String> postRequest(String body, String uri) throws Exception{
         try {
             HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(uri))
+                .uri(URI.create(uri))
                 .POST(BodyPublishers.ofString(body))
                 .build();
 

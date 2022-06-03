@@ -13,11 +13,12 @@ public class TradoResponse {
     private String contentType = ContentType.TEXT_HTML;
     private final Map<String, String> headers;
     private byte[] content;
+    private final static String CONTENT_TYPE_HEADER = "Content-Type";
 
     private TradoResponse(byte[] content) {
         this.content = content;
         headers = new HashMap<>();
-        headers.put("Content-Type", contentType);
+        headers.put(CONTENT_TYPE_HEADER, contentType);
     }
 
     public HttpStatus httpStatus(){
@@ -51,7 +52,7 @@ public class TradoResponse {
             content);
     }
 
-    public static class Builder{
+    public static class Builder {
         private TradoResponse response;
         private Builder(byte[] content){
             response = new TradoResponse(content);
@@ -83,6 +84,11 @@ public class TradoResponse {
 
         public Builder statusCode(int code){
             response.httpStatus = HttpStatus.byValue(code);
+            return this;
+        }
+
+        public Builder contentType(String contentType) {
+            response.headers.put(CONTENT_TYPE_HEADER, contentType);
             return this;
         }
     }
