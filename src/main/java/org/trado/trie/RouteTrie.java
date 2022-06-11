@@ -3,33 +3,46 @@ package org.trado.trie;
 import org.trado.Action;
 
 public class RouteTrie {
-    private RouteTrieNode root;
+    private RouteTrieNode<String, Action> root;
 
     public RouteTrie() {
-        root = new RouteTrieNode();
+        root = new RouteTrieNode<>();
     }
 
     public void insert(String url, String method, Action action) {
         var current = root;
         for (String part : url.split("/")) {
             if(part.length() == 0) continue;
-            current = current.children().computeIfAbsent(part, c -> new RouteTrieNode());
+            if (part.startsWith(":")){
+                System.out.println(part);
+            }
+            current = current.children().computeIfAbsent(part, c -> new RouteTrieNode<>());
         }
-        current.addMethodAction(method, action);   
-    }
-
-    public boolean isEmpty(){
-        return root.children().size() > 0;
+        current.addMethodAction(method, action);
     }
 
     public Action action(String url, String method) {
         var current = root;
         for (String part : url.split("/")) {
             if(part.length() == 0) continue;
-            var node = current.children().get(part);
+
+            RouteTrieNode<String, Action> node;
+            node = current.children().get(part);
             if (node == null) {
-                return null;
+                var keyset = current.children().keySet();
+
+                for (String key : keyset) {
+                    if (key.startsWith(":")){
+                        node = current.children().get(key);
+                        break;
+                    }
+                }
+
+                if (node == null){
+                    return null;
+                }   
             }
+        
             current = node;
         }
         return current.action(method);

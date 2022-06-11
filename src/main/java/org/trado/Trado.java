@@ -30,6 +30,11 @@ public class Trado {
         return this;
     }
 
+    public Trado usePublicController(){
+        tradoHandler.initController("/public", PublicController.class);
+        return this;
+    }
+
     public Trado port(int port){
         options.withPort(port);
         return this;

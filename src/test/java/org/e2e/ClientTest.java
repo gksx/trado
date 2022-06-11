@@ -15,7 +15,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.trado.ContentType;
-import org.util.TestUtil;
+import org.util.TestServer;
 
 public class ClientTest {
 
@@ -24,12 +24,12 @@ public class ClientTest {
 
     @BeforeAll
     public static void initServer(){
-        TestUtil.startInstance();
+        TestServer.startInstance();
     }
 
     @AfterAll
     public static void stop(){
-        TestUtil.stop();
+        TestServer.stop();
     }
 
     @Test
@@ -89,6 +89,20 @@ public class ClientTest {
         var response = getRequest(baseUrl + "/json");
         assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.APPLICATION_JSON));
         assertEquals(response.statusCode(), 200);
+    }
+
+    @Test
+    public void expect_app_js_in_return() throws Exception{
+        var response = getRequest(baseUrl + "/public/app.js");
+        assertTrue(response.body().contains("hello world"));
+        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.APPLICATION_JAVASCRIPT));
+    }
+
+    @Test
+    public void expect_away_route() throws Exception{
+        var response = getRequest(baseUrl + "/home/away");
+        assertTrue(response.body().length() == 0);
+        assertEquals(200, response.statusCode());
     }
 
     @Test

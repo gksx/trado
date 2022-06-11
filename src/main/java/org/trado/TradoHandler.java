@@ -30,6 +30,12 @@ class TradoHandler implements Handler {
                 continue;
             }
             var httpMethodOnController = httpMethod.value()[0];
+
+            var routeExtension = m.getAnnotation(Route.class);
+
+            if (routeExtension != null) {
+                uri = uri + "/" + routeExtension.value()[0];
+            }
             
             routes.add(uri, httpMethodOnController, (req) -> {
                 try {

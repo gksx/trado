@@ -2,25 +2,23 @@ package org.trado.trie;
 
 import java.util.HashMap;
 
-import org.trado.Action;
-
-class RouteTrieNode {
-    private HashMap<String, RouteTrieNode> children;
-    private HashMap<String, Action> methodActions;
+class RouteTrieNode<K, V> {
+    private HashMap<String, RouteTrieNode<K, V>> children;
+    private HashMap<K, V> methodActions;
     RouteTrieNode() {
         children = new HashMap<>();
         methodActions = new HashMap<>();
     }
 
-    HashMap<String, RouteTrieNode> children(){
+    HashMap<String, RouteTrieNode<K, V>> children(){
         return children;
     }
 
-    void addMethodAction(String method, Action action) {
-        methodActions.put(method, action);
+    void addMethodAction(K key, V value) {
+        methodActions.put(key, value);
     }
 
-    Action action(String method) {
-        return methodActions.get(method);
+    V action(K key) {
+        return methodActions.get(key);
     }
 }

@@ -5,13 +5,14 @@ import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoResponse;
 
-public class TestUtil {
+public class TestServer {
     
     static Thread serverThread;
     static Trado trado;
     public static void startInstance(){
         trado = new Trado()
             .controller("/home", HomeController.class)
+            .usePublicController()
             .get("/", (req) -> {
                 return TradoResponse.content("foo")
                     .build();

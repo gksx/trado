@@ -1,6 +1,7 @@
 package org.controller;
 
 import org.trado.HttpMethod;
+import org.trado.Route;
 import org.trado.TradoController;
 import org.trado.TradoRequest;
 import org.trado.TradoResponse;
@@ -17,5 +18,11 @@ public class HomeController extends TradoController {
     public TradoResponse echo(TradoRequest request){
         return TradoResponse.content(new String(request.request().body()))
                 .build();
+    }
+
+    @Route("away")
+    @HttpMethod("GET")
+    public TradoResponse away(TradoRequest request) {
+        return TradoResponse.empty().build();
     }
 }

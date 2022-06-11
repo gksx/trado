@@ -91,5 +91,10 @@ public class TradoResponse {
             response.headers.put(CONTENT_TYPE_HEADER, contentType);
             return this;
         }
+
+        public Builder notFound() {
+            response.httpStatus = HttpStatus.NOT_FOUND;
+            return this;
+        }
     }
 }
