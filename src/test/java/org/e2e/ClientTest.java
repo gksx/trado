@@ -10,7 +10,6 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -50,6 +49,12 @@ public class ClientTest {
     public void expect_404_status() throws Exception{
         var response = getRequest(baseUrl + "/notThere");
         assertEquals(response.statusCode(), 404);
+    }
+
+    @Test
+    public void expect_200_wiht_queryParams() throws Exception {
+        var response = getRequest(baseUrl + "/home?q=foo");
+        assertTrue(response.body().contains("bar"));
     }
 
     @Test
