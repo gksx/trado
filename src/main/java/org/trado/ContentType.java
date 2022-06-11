@@ -1,6 +1,5 @@
 package org.trado;
 
-
 public class ContentType {
     
     private ContentType(){
