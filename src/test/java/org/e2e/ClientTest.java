@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.trado.ContentType;
 import org.util.TestUtil;
 
 public class ClientTest {
@@ -75,6 +76,13 @@ public class ClientTest {
     public void expect_empty_response() throws Exception {
         var response = getRequest(baseUrl + "/empty");
         assertTrue(response.body().length() == 0);
+        assertEquals(response.statusCode(), 200);
+    }
+
+    @Test
+    public void expect_content_type_application_json() throws Exception {
+        var response = getRequest(baseUrl + "/json");
+        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.APPLICATION_JSON));
         assertEquals(response.statusCode(), 200);
     }
 

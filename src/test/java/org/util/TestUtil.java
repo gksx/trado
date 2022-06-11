@@ -1,6 +1,7 @@
 package org.util;
 
 import org.controller.HomeController;
+import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoResponse;
 
@@ -24,6 +25,12 @@ public class TestUtil {
                 return TradoResponse
                     .empty()
                     .build();
+            })
+            .get("/json", (req) -> {
+                return TradoResponse
+                .empty()
+                .contentType(ContentType.APPLICATION_JSON)
+                .build();
             })
             .port(8080);
             
