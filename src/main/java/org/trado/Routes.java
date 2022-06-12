@@ -12,17 +12,17 @@ class Routes {
     }
 
     void add(String path, String method, Action action){        
-        routeTrie.insert(pathWitNoParams(path), method, action);
+        routeTrie.insert(stripParamsFromPath(path), method, action);
     }
 
     Optional<Action> get(String path, String method) {
-        var action = routeTrie.action(pathWitNoParams(path), method);
+        var action = routeTrie.action(path, method);
         return action != null 
             ? Optional.of(action)
             : Optional.empty();
     }
 
-    private static String pathWitNoParams(String path) {
+    private static String stripParamsFromPath(String path) {
         return path.split("\\?")[0];
     }
 }

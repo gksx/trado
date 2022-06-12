@@ -45,7 +45,7 @@ public class TradoRequestLogger extends TradoLogger {
     }
 
     @Override
-    boolean tradoTraceEnabld() {
+    boolean tradoTraceEnabled() {
         return true;
     }
 }

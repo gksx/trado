@@ -13,9 +13,7 @@ public class RouteTrie {
         var current = root;
         for (String part : url.split("/")) {
             if(part.length() == 0) continue;
-            if (part.startsWith(":")){
-                System.out.println(part);
-            }
+            
             current = current.children().computeIfAbsent(part, c -> new RouteTrieNode<>());
         }
         current.addMethodAction(method, action);
@@ -29,6 +27,7 @@ public class RouteTrie {
             RouteTrieNode<String, Action> node;
             node = current.children().get(part);
             if (node == null) {
+                
                 var keyset = current.children().keySet();
 
                 for (String key : keyset) {

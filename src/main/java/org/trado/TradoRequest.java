@@ -11,10 +11,12 @@ import org.microhttp.Request;
 public class TradoRequest {
     private final Request request;
     private Map<String, String> params; 
+    private final String path;
 
     public TradoRequest(Request request){
         this.request = request;
         mapParams(request.uri());
+        this.path = request.uri().split("\\?")[0];
     }
 
     private void mapParams(String uri) {
@@ -36,6 +38,10 @@ public class TradoRequest {
 
     public Request request(){
         return request;
+    }
+
+    public String path(){
+        return path;
     }
 
     public String params(String property) {

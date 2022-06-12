@@ -65,16 +65,17 @@ class TradoHandler implements Handler {
 
     private Runnable internalHandle(Request request, Consumer<Response> callback) {
         return () ->  { 
-            if (tradoLogger.tradoTraceEnabld()) {
+            if (tradoLogger.tradoTraceEnabled()) {
                 tradoLogger.log(request.uri() + " " + request.method());
             }
             try {
+                var tradoRequest = new TradoRequest(request);
                 var tradoResponse = routes
-                    .get(request.uri(), request.method())
-                    .map(a -> a.handle(new TradoRequest(request)))
+                    .get(tradoRequest.path(), tradoRequest.request().method())
+                    .map(a -> a.handle(tradoRequest))
                     .orElse(TradoController.notFound());
 
-                if (tradoLogger.tradoTraceEnabld()) {
+                if (tradoLogger.tradoTraceEnabled()) {
                     tradoLogger.log(tradoResponse.httpStatus().toString());
                 }
                 

@@ -117,32 +117,23 @@ public class ClientTest {
     }
 
     private CompletableFuture<HttpResponse<String>> getAsync(String uri) throws Exception{
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI(uri))
-                .GET()
-                .build();
+        
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(new URI(uri))
+            .GET()
+            .build();
 
-        return httpClient
-            .sendAsync(request, BodyHandlers.ofString());
-        } catch (Exception e) { 
-            throw e;
-        }
+        return httpClient.sendAsync(request, BodyHandlers.ofString());
+        
     }
 
     private HttpResponse<String> getRequest(String uri) throws Exception{
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(uri))
+            .GET()
+            .build();
 
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(uri))
-                .GET()
-                .build();
-
-        return httpClient
-            .send(request, BodyHandlers.ofString());
-        } catch (Exception e) { 
-            throw e;
-        }
+        return httpClient.send(request, BodyHandlers.ofString());        
     }
 
     private HttpResponse<String> postRequest(String body, String uri) throws Exception{

@@ -17,7 +17,7 @@ public class HomeController extends TradoController {
     @HttpMethod("POST")
     public TradoResponse echo(TradoRequest request){
         return TradoResponse.content(new String(request.request().body()))
-                .build();
+            .build();
     }
 
     @Route("away")
