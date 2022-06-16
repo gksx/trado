@@ -74,7 +74,7 @@ public class Trado {
         eventLoop.stop();        
     }
 
-    public String banner(){
+    private String banner(){
         return String.format("""
                 <--------------------------->
                 <--------TRADO STARTING----->

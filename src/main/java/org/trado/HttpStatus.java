@@ -7,7 +7,8 @@ public enum HttpStatus {
     OK(200, "OK"),
     BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"), 
-    IM_A_TEAPOT(418, "I'm a teapot")
+    IM_A_TEAPOT(418, "I'm a teapot"),
+    INTERNAL_ERROR(500, "Internal Error"),
     ;
 
     private final int statusCode;

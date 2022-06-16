@@ -68,6 +68,7 @@ public class ClientTest {
         var response = postRequest("hello!", baseUrl + "/home");
         assertTrue(response.body().equalsIgnoreCase("hello!"));
         assertEquals(response.statusCode(), 200);
+        
     }
 
     @Test
@@ -82,6 +83,12 @@ public class ClientTest {
         var response = getRequest(baseUrl + "/empty");
         assertTrue(response.body().length() == 0);
         assertEquals(response.statusCode(), 200);
+    }
+
+    @Test
+    public void expect_internal_error() throws Exception {
+        var response = getRequest(baseUrl + "/home/error");
+        assertEquals(500, response.statusCode());
     }
 
     @Test
@@ -101,7 +108,6 @@ public class ClientTest {
     @Test
     public void expect_away_route() throws Exception{
         var response = getRequest(baseUrl + "/home/away");
-        assertTrue(response.body().length() == 0);
         assertEquals(200, response.statusCode());
     }
 
@@ -137,16 +143,14 @@ public class ClientTest {
     }
 
     private HttpResponse<String> postRequest(String body, String uri) throws Exception{
-        try {
-            HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(uri))
-                .POST(BodyPublishers.ofString(body))
-                .build();
-
+        
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(uri))
+            .POST(BodyPublishers.ofString(body))
+            .build();
+        
         return HttpClient.newHttpClient()
             .send(request, BodyHandlers.ofString());
-        } catch (Exception e) { 
-            throw e;
-        }
+        
     }
 }

@@ -9,7 +9,7 @@ import org.trado.TradoResponse;
 
 public class TrieTest {
     
-    static final Action stubAction = (req) -> TradoResponse.empty().brew().build();
+    public static final Action stubAction = (req) -> TradoResponse.empty().brew().build();
 
     @Test
     public void test_insert(){
@@ -27,5 +27,14 @@ public class TrieTest {
         trie.insert("/path/:param", "GET", stubAction);
         var action = trie.action("/path/hej", "GET");
         assertNotNull(action);
+    }
+
+    @Test
+    public void child(){
+        var trie = new RouteTrie();
+        trie.insert("/home", "GET", stubAction);
+        trie.insert("/home/error", "GET", stubAction);
+        trie.insert("/home/away", "GET", stubAction);
+        var q ="";
     }
 }

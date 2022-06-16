@@ -1,6 +1,5 @@
 package org.trado;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -32,20 +31,22 @@ class TradoHandler implements Handler {
             var httpMethodOnController = httpMethod.value()[0];
 
             var routeExtension = m.getAnnotation(Route.class);
-
+            String path = "";
             if (routeExtension != null) {
-                uri = uri + "/" + routeExtension.value()[0];
+                path = uri + "/" + routeExtension.value()[0];
+            } else {
+                path = uri;
             }
             
-            routes.add(uri, httpMethodOnController, (req) -> {
+            routes.add(path, httpMethodOnController, (req) -> {
                 try {
                     var controller1  = (TradoController)controller
                         .getDeclaredConstructors()[0]
                         .newInstance();
 
                     return (TradoResponse)m.invoke(controller1, req);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException | SecurityException e) {
-                    throw new TradoException("cant ", e);
+                } catch (Exception e) {
+                    throw new TradoException("Invoking action", e.getCause());
                 }
             });
         }
@@ -65,10 +66,11 @@ class TradoHandler implements Handler {
 
     private Runnable internalHandle(Request request, Consumer<Response> callback) {
         return () ->  { 
-            if (tradoLogger.tradoTraceEnabled()) {
-                tradoLogger.log(request.uri() + " " + request.method());
-            }
             try {
+                if (tradoLogger.tradoTraceEnabled()) {
+                    tradoLogger.log(request.uri() + " " + request.method());
+                }
+
                 var tradoRequest = new TradoRequest(request);
                 var tradoResponse = routes
                     .get(tradoRequest.path(), tradoRequest.request().method())
@@ -81,7 +83,6 @@ class TradoHandler implements Handler {
                 
                 callback.accept(tradoResponse.toResponse());    
             } catch (Exception e) {
-                
                 var tradoResponse = TradoController.internalError();
                 tradoLogger.log(tradoResponse.httpStatus().toString());
                 tradoLogger.log(e, "error internal handle");
