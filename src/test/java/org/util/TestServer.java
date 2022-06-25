@@ -1,6 +1,7 @@
 package org.util;
 
 import org.controller.HomeController;
+import org.trado.Action;
 import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoResponse;
@@ -40,7 +41,7 @@ public class TestServer {
     }
 
     public static void stop() {
-        System.out.println("stopping " + serverThread.getId());
+        System.out.println("stopping " + serverThread.getName());
         trado.stop();
         try {
             serverThread.join();
@@ -48,5 +49,27 @@ public class TestServer {
             e.printStackTrace();
         }
         System.out.println("stopped thread and trado-server");
+    }
+
+    public static void test(Action action) {
+        new Trado()
+        .path("/hej", (trado)-> {
+            
+            trado.get("", (req) -> {
+                return TradoResponse
+                .empty()
+                .contentType(ContentType.APPLICATION_JSON)
+                .build();
+            });
+
+            trado.post("uri", (req) -> {
+                return TradoResponse
+                .empty()
+                .contentType(ContentType.APPLICATION_JSON)
+                .build();
+            });
+        })
+        .growl();
+        
     }
 }

@@ -30,7 +30,6 @@ public class HomeController extends TradoController {
     @Route("error")
     @HttpMethod("GET")
     public TradoResponse error(TradoRequest request) {
-        // return TradoResponse.empty().build();
         throw new TradoException("test");
     }
 }

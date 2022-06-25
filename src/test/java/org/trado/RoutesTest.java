@@ -11,7 +11,6 @@ public class RoutesTest {
         var routes = new Routes();
         routes.add("/home", "GET", stubAction);
         routes.add("/home/error", "GET", stubAction);
-        routes.add("/home/away", "GET", stubAction);
-        var q = "";
+        routes.add("/home/away", "GET", stubAction);        
     }
 }

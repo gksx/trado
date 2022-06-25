@@ -60,6 +60,19 @@ public class Trado {
         return this;
     }
 
+    public Trado path(String uri, Group group){
+        group.addRoutes(this);
+        return this;
+    }
+
+    public Trado requestFilter(RequestFilter requestFilter){
+        return this;
+    }
+
+    public Trado reesponseFilter(ResponseFilter responseFilter){
+        return this;
+    }
+
     public void growl(){
         try {   
             System.out.println(banner());
