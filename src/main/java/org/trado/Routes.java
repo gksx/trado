@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.trado.trie.RouteTrie;
 
 class Routes {
-    private final RouteTrie routeTrie;
+    private final RouteTrie<Action> routeTrie;
 
     Routes(){
-        routeTrie = new RouteTrie();
+        routeTrie = new RouteTrie<>();
     }
 
     void add(String path, String method, Action action){        

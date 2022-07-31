@@ -1,30 +1,28 @@
 package org.trado.trie;
 
-import org.trado.Action;
-
-public class RouteTrie {
-    private RouteTrieNode<String, Action> root;
+public class RouteTrie<V> {
+    private TrieNode<String, V> root;
 
     public RouteTrie() {
-        root = new RouteTrieNode<>();
+        root = new TrieNode<>();
     }
 
-    public void insert(String url, String method, Action action) {
+    public void insert(String url, String identifier, V action) {
         var current = root;
         for (String part : url.split("/")) {
-            if(part.length() == 0) continue;
+            if (part.length() == 0) continue;
             
-            current = current.children().computeIfAbsent(part, c -> new RouteTrieNode<>());
+            current = current.children().computeIfAbsent(part, c -> new TrieNode<>());
         }
-        current.addMethodAction(method, action);
+        current.addMethodAction(identifier, action);
     }
 
-    public Action action(String url, String method) {
+    public V action(String url, String identifier) {
         var current = root;
         for (String part : url.split("/")) {
             if(part.length() == 0) continue;
 
-            RouteTrieNode<String, Action> node;
+            TrieNode<String, V> node;
             node = current.children().get(part);
             if (node == null) {
                 
@@ -44,6 +42,6 @@ public class RouteTrie {
         
             current = node;
         }
-        return current.action(method);
+        return current.action(identifier);
     }
 }

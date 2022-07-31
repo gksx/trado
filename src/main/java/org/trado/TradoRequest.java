@@ -3,6 +3,7 @@ package org.trado;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.microhttp.Header;
 import org.microhttp.Request;
 /**
  * Request wrapper for some things
@@ -10,22 +11,22 @@ import org.microhttp.Request;
  */
 public class TradoRequest {
     private final Request request;
-    private Map<String, String> params; 
+    private final Map<String, String> params; 
     private final String path;
 
     public TradoRequest(Request request){
         this.request = request;
-        mapParams(request.uri());
+        params = new HashMap<>();
+        mapParams();
         this.path = request.uri().split("\\?")[0];
     }
 
-    private void mapParams(String uri) {
-        params = new HashMap<>();
+    private void mapParams() {
         try {
-            if (!uri.contains("?")){
+            if (!this.request.uri().contains("?")){
                 return;
             }
-            var array = uri.split("\\?")[1].split("\\&");
+            var array = this.request.uri().split("\\?")[1].split("\\&");
             for (String keyVal : array) {
                 var keyValues = keyVal.split("\\=");
                 params.put(keyValues[0], keyValues[1]);      
@@ -50,5 +51,13 @@ public class TradoRequest {
 
     public Map<String, String> params(){
         return params;
+    }
+
+    public void addHeader(String name, String value) {
+        request().headers().add(new Header(name, value));
+    }
+
+    public void end() {
+        throw new EndRequestException();
     }
 }

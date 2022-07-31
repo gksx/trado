@@ -65,11 +65,12 @@ public class Trado {
         return this;
     }
 
-    public Trado requestFilter(RequestFilter requestFilter){
+    public Trado requestFilter(String path, int order, RequestFilter requestFilter){
+        tradoHandler.addRequestFilter(path, order, requestFilter);
         return this;
     }
 
-    public Trado reesponseFilter(ResponseFilter responseFilter){
+    public Trado responseFilter(ResponseFilter responseFilter){
         return this;
     }
 

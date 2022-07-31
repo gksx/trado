@@ -1,10 +1,10 @@
 package org.util;
 
-import org.controller.HomeController;
 import org.trado.Action;
 import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoResponse;
+import org.util.controller.HomeController;
 
 public class TestServer {
     
@@ -14,6 +14,13 @@ public class TestServer {
         trado = new Trado()
             .controller("/home", HomeController.class)
             .usePublicController()
+            .requestFilter("/", 1, (req) -> {
+                req.addHeader("request-filter", "foo");
+                if (true) {
+                    req.end();
+                }
+                return req;
+            })
             .get("/", (req) -> {
                 return TradoResponse.content("foo")
                     .build();

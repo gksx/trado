@@ -1,16 +1,17 @@
 package org.trado.trie;
 
 import java.util.HashMap;
+import java.util.Map;
 
-class RouteTrieNode<K, V> {
-    private HashMap<String, RouteTrieNode<K, V>> children;
-    private HashMap<K, V> methodActions;
-    RouteTrieNode() {
+class TrieNode<K, V> {
+    private Map<String, TrieNode<K, V>> children;
+    private Map<K, V> methodActions;
+    TrieNode() {
         children = new HashMap<>();
         methodActions = new HashMap<>();
     }
 
-    HashMap<String, RouteTrieNode<K, V>> children(){
+    Map<String, TrieNode<K, V>> children(){
         return children;
     }
 

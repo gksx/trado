@@ -1,6 +1,7 @@
 package org.e2e;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
@@ -117,18 +118,26 @@ public class ClientTest {
     }
 
     @Test
-    public void some_50_or_so_requests_in_parallel() throws Exception{
+    public void expect_header_from_filter() throws Exception{
+        var response = getRequest(baseUrl);
+        var headerExists = response.headers().firstValue("request-filter").isPresent();
+        assertTrue(headerExists);
+    }
+
+    @Test
+    public void some_100_or_so_requests_in_parallel() throws Exception{
          Callable<?> callable = () -> {
             return new ForkJoinPool(100).submit(()-> {
-                IntStream.range(0, 99).parallel().forEach(i -> {
+                IntStream.range(0, 50).parallel().forEach(i -> {
                     try {
-                        System.out.println(Thread.currentThread().getName());
-                        assertTrue(getRequest(baseUrl + "/home").body() != null);
+                        var s = getRequest(baseUrl + "/home").body();
+                        assertNotNull(s);
+                        
                     } catch (Exception e) {
-
+                        e.printStackTrace();
                     }
                 });
-            });
+            }).get();
          };
 
          logAndRun(callable);
@@ -137,12 +146,12 @@ public class ClientTest {
     private void logAndRun(Callable<?> callable) throws Exception {
         long startTime = System.currentTimeMillis();
         callable.call();
-        System.out.println((" took " + (System.currentTimeMillis() - startTime) + " milliseconds"));
+        System.out.println(("took " + (System.currentTimeMillis() - startTime) + " milliseconds"));
     }
 
     @Test
     public void some_async_requests_after_another() throws Exception{
-        var numberOfRequests = 500;
+        var numberOfRequests = 100;
         var array = new CompletableFuture[numberOfRequests];
         for (int i = 0; i < numberOfRequests; i++) {
             array[i] = getAsync(baseUrl + "/home");    
