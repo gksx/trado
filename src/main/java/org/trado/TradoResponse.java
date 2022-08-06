@@ -14,11 +14,13 @@ public class TradoResponse {
     private final Map<String, String> headers;
     private byte[] content;
     private final static String CONTENT_TYPE_HEADER = "Content-Type";
+    private final static String X_POWERED_BY = "x-powered-by";
 
     private TradoResponse(byte[] content) {
         this.content = content;
         headers = new HashMap<>();
         headers.put(CONTENT_TYPE_HEADER, contentType);
+        headers.put(X_POWERED_BY, "trado");
     }
 
     public HttpStatus httpStatus(){

@@ -13,7 +13,7 @@ public class TrieTest {
 
     @Test
     public void test_insert(){
-        var trie = new RouteTrie();
+        var trie = new RouteTrie<>();
         trie.insert("/hej", "GET", stubAction);
         trie.insert("/hej/hejsan/h", "POST", stubAction);
         assertNotNull(trie.action("/hej", "GET"));
@@ -23,7 +23,7 @@ public class TrieTest {
 
     @Test
     public void with_wildcards(){
-        var trie = new RouteTrie();
+        var trie = new RouteTrie<>();
         trie.insert("/path/:param", "GET", stubAction);
         var action = trie.action("/path/hej", "GET");
         assertNotNull(action);
@@ -31,7 +31,7 @@ public class TrieTest {
 
     @Test
     public void child(){
-        var trie = new RouteTrie();
+        var trie = new RouteTrie<>();
         trie.insert("/home", "GET", stubAction);
         trie.insert("/home/error", "GET", stubAction);
         trie.insert("/home/away", "GET", stubAction);

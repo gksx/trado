@@ -73,7 +73,6 @@ public class ClientTest {
         var response = postRequest("hello!", baseUrl + "/home");
         assertTrue(response.body().equalsIgnoreCase("hello!"));
         assertEquals(response.statusCode(), 200);
-        
     }
 
     @Test
@@ -119,9 +118,8 @@ public class ClientTest {
 
     @Test
     public void expect_header_from_filter() throws Exception{
-        var response = getRequest(baseUrl);
-        var headerExists = response.headers().firstValue("request-filter").isPresent();
-        assertTrue(headerExists);
+        var response = getRequest(baseUrl + "/filter");
+        assertEquals(200, response.statusCode());
     }
 
     @Test

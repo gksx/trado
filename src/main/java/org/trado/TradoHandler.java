@@ -16,6 +16,7 @@ class TradoHandler implements Handler {
     private final ExecutorService executor;
     private final TradoLogger tradoLogger;
     private final RequestFilters requestFilters;
+    // private final ResponseFilters responseFilters;
 
     TradoHandler(TradoLogger tradoLogger) {
         this.routes = new Routes();
@@ -75,13 +76,16 @@ class TradoHandler implements Handler {
 
                 var requestBeforeFilter = new TradoRequest(request);
 
-                var requestAfterFilter = requestFilters.get(requestBeforeFilter.path(), 1)
-                    .map(r -> r.filter(requestBeforeFilter))
-                    .orElse(requestBeforeFilter);
-
+                try {
+                    requestFilters.get(requestBeforeFilter.path(), 1)
+                        .ifPresent(filter -> filter.apply(requestBeforeFilter));
+                } catch (EndRequestException e) {
+                    e.printStackTrace();
+                }
+                
                 var tradoResponse = routes
-                    .get(requestAfterFilter.path(), requestAfterFilter.request().method())
-                    .map(a -> a.handle(requestAfterFilter))
+                    .get(requestBeforeFilter.path(), requestBeforeFilter.request().method())
+                    .map(a -> a.handle(requestBeforeFilter))
                     .orElse(TradoController.notFound());
 
                 if (tradoLogger.tradoTraceEnabled()) {
@@ -98,8 +102,7 @@ class TradoHandler implements Handler {
         };
     }
 
-    TradoHandler addRequestFilter(String path, int order, RequestFilter requestFilter) {
+    void addRequestFilter(String path, int order, RequestFilter requestFilter) {
         requestFilters.add(path, order, requestFilter);
-        return this;
     }
 }

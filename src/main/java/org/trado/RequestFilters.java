@@ -22,7 +22,5 @@ class RequestFilters {
        return requestFilter != null
         ? Optional.of(requestFilter)
         : Optional.empty();
-
     }
-    
 }

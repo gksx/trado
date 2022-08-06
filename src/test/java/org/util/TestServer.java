@@ -14,12 +14,11 @@ public class TestServer {
         trado = new Trado()
             .controller("/home", HomeController.class)
             .usePublicController()
-            .requestFilter("/", 1, (req) -> {
-                req.addHeader("request-filter", "foo");
-                if (true) {
-                    req.end();
-                }
-                return req;
+            .requestFilter("/filter", 1, (req) -> {
+                req.end();
+            })
+            .get("/filter", (req) -> {
+                return TradoResponse.empty().build();
             })
             .get("/", (req) -> {
                 return TradoResponse.content("foo")

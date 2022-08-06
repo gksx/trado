@@ -53,11 +53,7 @@ public class TradoRequest {
         return params;
     }
 
-    public void addHeader(String name, String value) {
-        request().headers().add(new Header(name, value));
-    }
-
     public void end() {
-        throw new EndRequestException();
+        throw new EndRequestException(this);
     }
 }
