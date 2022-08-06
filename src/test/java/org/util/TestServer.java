@@ -17,7 +17,13 @@ public class TestServer {
             .requestFilter("/filter", 1, (req) -> {
                 req.end();
             })
+            .responseFilter("/after-filter", 1, (res) -> {
+                res.header("x-user", "gksx");
+            })
             .get("/filter", (req) -> {
+                return TradoResponse.empty().build();
+            })
+            .get("/after-filter", (req) -> {
                 return TradoResponse.empty().build();
             })
             .get("/", (req) -> {

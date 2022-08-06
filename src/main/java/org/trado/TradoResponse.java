@@ -31,6 +31,10 @@ public class TradoResponse {
         return new Builder(content);
     }
 
+    public void header(String name, String value) {
+        headers.put(name, value);
+    }
+
     public static Builder content(String content) {
         return new Builder(content.getBytes());
     }

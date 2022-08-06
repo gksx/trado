@@ -70,7 +70,8 @@ public class Trado {
         return this;
     }
 
-    public Trado responseFilter(ResponseFilter responseFilter){
+    public Trado responseFilter(String path, int order, ResponseFilter responseFilter){
+        tradoHandler.addRequestFilter(path, order, responseFilter);
         return this;
     }
 

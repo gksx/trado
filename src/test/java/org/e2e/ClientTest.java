@@ -1,6 +1,7 @@
 package org.e2e;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -117,9 +118,23 @@ public class ClientTest {
     }
 
     @Test
-    public void expect_header_from_filter() throws Exception{
+    public void expect_end_from_filter() throws Exception{
         var response = getRequest(baseUrl + "/filter");
         assertEquals(200, response.statusCode());
+    }
+
+    @Test
+    public void expect_header_from_filter() throws Exception {
+        var response = getRequest(baseUrl + "/after-filter");
+        var header = response.headers().firstValue("x-user").get();
+        assertEquals("gksx", header);
+    }
+
+    @Test
+    public void expect_header_from_filter_not_existing() throws Exception {
+        var response = getRequest(baseUrl + "/home");
+        var header = response.headers().firstValue("x-user");
+        assertFalse(header.isPresent());
     }
 
     @Test

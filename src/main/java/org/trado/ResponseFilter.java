@@ -2,5 +2,5 @@ package org.trado;
 
 @FunctionalInterface
 public interface ResponseFilter {
-    TradoResponse filter(TradoResponse tradoResponse);
+    void apply(TradoResponse tradoResponse);
 }
