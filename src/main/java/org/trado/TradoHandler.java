@@ -77,31 +77,9 @@ class TradoHandler implements Handler {
 
                 var tradoRequest = new TradoRequest(request);
 
-                try {
-                    requestFilters.get(tradoRequest.path(), 1)
-                        .ifPresent(filter -> filter.apply(tradoRequest));
-                } catch (EndRequestException e) {
-                    e.printStackTrace();
-                }
+                Response response = mapResponse(tradoRequest);
                 
-                var tradoResponse = routes
-                    .get(tradoRequest.path(), tradoRequest.request().method())
-                    .map(a -> a.handle(tradoRequest))
-                    .orElse(TradoController.notFound());
-
-                try {
-                    responseFilters.get(tradoRequest.path(), 1)
-                        .ifPresent(filter -> filter.apply(tradoResponse));
-                } catch (EndRequestException e) {
-                    e.printStackTrace();
-                }    
-
-                if (tradoLogger.tradoTraceEnabled()) {
-                    tradoLogger.log(tradoResponse.httpStatus().toString());
-                }
-                
-
-                callback.accept(tradoResponse.toResponse());    
+                callback.accept(response);    
             } catch (Exception e) {
                 var tradoResponse = TradoController.internalError();
                 tradoLogger.log(tradoResponse.httpStatus().toString());
@@ -109,6 +87,32 @@ class TradoHandler implements Handler {
                 callback.accept(tradoResponse.toResponse());
             }            
         };
+    }
+
+    private Response mapResponse(TradoRequest tradoRequest) {
+        try {
+            requestFilters.get(tradoRequest.path(), 1)
+                .ifPresent(filter -> filter.apply(tradoRequest));
+        } catch (EndRequestException e) {
+            return e.getResponse().toResponse();
+        }
+
+        var tradoResponse = routes
+            .get(tradoRequest.path(), tradoRequest.request().method())
+            .map(route -> route.handle(tradoRequest))
+            .orElse(TradoController.notFound());       
+
+        try {
+            responseFilters.get(tradoRequest.path(), 1)
+                .ifPresent(filter -> filter.apply(tradoResponse));
+        } catch (EndRequestException e) {
+            return e.getResponse().toResponse();
+        }    
+
+        if (tradoLogger.tradoTraceEnabled()) {
+            tradoLogger.log(tradoResponse.httpStatus().toString());
+        }
+        return tradoResponse.toResponse();
     }
 
     void addRequestFilter(String path, int order, RequestFilter requestFilter) {

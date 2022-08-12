@@ -3,6 +3,7 @@ package org.util;
 import org.trado.Action;
 import org.trado.ContentType;
 import org.trado.Trado;
+import org.trado.TradoController;
 import org.trado.TradoResponse;
 import org.util.controller.HomeController;
 
@@ -15,7 +16,7 @@ public class TestServer {
             .controller("/home", HomeController.class)
             .usePublicController()
             .requestFilter("/filter", 1, (req) -> {
-                req.end();
+                TradoController.end();
             })
             .responseFilter("/after-filter", 1, (res) -> {
                 res.header("x-user", "gksx");

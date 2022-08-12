@@ -14,6 +14,10 @@ public abstract class TradoController {
             .build();
     }
 
+    public static TradoResponse end() {
+        throw new EndRequestException(notFound());
+    }
+
     private static final String errorPage(int statusCode){
         return String.format("""
         <!DOCTYPE html>

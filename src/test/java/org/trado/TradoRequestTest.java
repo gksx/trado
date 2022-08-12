@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.microhttp.Request;
 
 public class TradoRequestTest {
+
+    static byte[] embtyByteArray = {};
     
     @Test
     public void params_from_url(){
@@ -16,7 +18,7 @@ public class TradoRequestTest {
             "http://localhost:8080?foo=bar&bar=foo", 
             "1.1",
             new ArrayList<>(), 
-            null);
+            embtyByteArray);
         
         var tradoRequest = new TradoRequest(request);
         assertTrue(tradoRequest.params().size() == 2);
@@ -31,7 +33,7 @@ public class TradoRequestTest {
             "http://localhost:8080?bar=foo", 
             "1.1",
             new ArrayList<>(), 
-            null);
+            embtyByteArray);
         
         var tradoRequest = new TradoRequest(request);
         assertTrue(tradoRequest.params().size() == 1);
@@ -45,7 +47,7 @@ public class TradoRequestTest {
             "http://localhost:8080/error", 
             "1.1",
             new ArrayList<>(), 
-            null);
+            embtyByteArray);
         
         var tradoRequest = new TradoRequest(request);
         assertTrue(tradoRequest.params().size() == 0);

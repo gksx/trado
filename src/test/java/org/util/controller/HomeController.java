@@ -34,4 +34,10 @@ public class HomeController extends TradoController {
     public TradoResponse error(TradoRequest request) {
         throw new TradoException("test");
     }
+
+    @Route("halt")
+    @HttpMethod("GET")
+    public TradoResponse halt(TradoRequest request){
+        return end();
+    }
 }

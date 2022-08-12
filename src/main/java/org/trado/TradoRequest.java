@@ -3,11 +3,9 @@ package org.trado;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.microhttp.Header;
 import org.microhttp.Request;
 /**
  * Request wrapper for some things
- * 
  */
 public class TradoRequest {
     private final Request request;
@@ -17,11 +15,26 @@ public class TradoRequest {
     public TradoRequest(Request request){
         this.request = request;
         params = new HashMap<>();
-        mapParams();
         this.path = request.uri().split("\\?")[0];
+        mapParams();
     }
 
     private void mapParams() {
+        queryParams();
+        bodyParams();
+    }
+
+    private void bodyParams() {
+        if (request.body().length > 0 && request.method() != "GET") {
+            var body = new String(request.body());
+            
+        }
+    }
+
+    void mapRouteParams() {    
+    }
+
+    private void queryParams() {
         try {
             if (!this.request.uri().contains("?")){
                 return;
@@ -54,6 +67,6 @@ public class TradoRequest {
     }
 
     public void end() {
-        throw new EndRequestException(this);
+        throw new EndRequestException(null);
     }
 }

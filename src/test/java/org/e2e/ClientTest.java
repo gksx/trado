@@ -120,7 +120,7 @@ public class ClientTest {
     @Test
     public void expect_end_from_filter() throws Exception{
         var response = getRequest(baseUrl + "/filter");
-        assertEquals(200, response.statusCode());
+        assertEquals(404, response.statusCode());
     }
 
     @Test
