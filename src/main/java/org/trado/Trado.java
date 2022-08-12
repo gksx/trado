@@ -61,7 +61,7 @@ public class Trado {
     }
 
     public Trado path(String uri, Group group){
-        group.addRoutes(this);
+        group.addRoutes(this, uri);
         return this;
     }
 

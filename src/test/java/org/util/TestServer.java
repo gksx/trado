@@ -47,6 +47,14 @@ public class TestServer {
                 .contentType(ContentType.APPLICATION_JSON)
                 .build();
             })
+            .path("/group", (trado, path) -> {
+                
+                trado.get(path, (req) -> {
+                    return TradoResponse.empty().build();
+                });
+
+                trado.post(path, (req) -> TradoResponse.empty().build());
+            })
             .port(8080);
             
       serverThread = new Thread(trado::growl);
@@ -62,27 +70,5 @@ public class TestServer {
             e.printStackTrace();
         }
         System.out.println("stopped thread and trado-server");
-    }
-
-    public static void test(Action action) {
-        new Trado()
-        .path("/hej", (trado)-> {
-            
-            trado.get("", (req) -> {
-                return TradoResponse
-                .empty()
-                .contentType(ContentType.APPLICATION_JSON)
-                .build();
-            });
-
-            trado.post("uri", (req) -> {
-                return TradoResponse
-                .empty()
-                .contentType(ContentType.APPLICATION_JSON)
-                .build();
-            });
-        })
-        .growl();
-        
     }
 }

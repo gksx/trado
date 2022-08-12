@@ -35,7 +35,7 @@ class TradoHandler implements Handler {
             var httpMethodOnController = httpMethod.value()[0];
 
             var routeExtension = m.getAnnotation(Route.class);
-            String path = "";
+            var path = "";
             if (routeExtension != null) {
                 path = uri + "/" + routeExtension.value()[0];
             } else {
@@ -44,11 +44,11 @@ class TradoHandler implements Handler {
             
             routes.add(path, httpMethodOnController, (req) -> {
                 try {
-                    var controller1  = (TradoController)controller
+                    var controllerInstance  = (TradoController)controller
                         .getDeclaredConstructors()[0]
                         .newInstance();
 
-                    return (TradoResponse)m.invoke(controller1, req);
+                    return (TradoResponse)m.invoke(controllerInstance, req);
                 } catch (Exception e) {
                     throw new TradoException("Invoking action", e.getCause());
                 }

@@ -138,9 +138,23 @@ public class ClientTest {
     }
 
     @Test
-    public void some_100_or_so_requests_in_parallel() throws Exception{
+    public void expect_emmpty_from_group() throws Exception {
+        var response = getRequest(baseUrl + "/group");
+        assertTrue(response.body().length() == 0);
+        assertTrue(response.statusCode() == 200);
+    }
+
+    @Test
+    public void expect_emmpty_from_group_post() throws Exception {
+        var response = postRequest("",baseUrl + "/group");
+        assertTrue(response.body().length() == 0);
+        assertTrue(response.statusCode() == 200);
+    }
+
+    @Test
+    public void some_50_or_so_requests_in_parallel() throws Exception{
          Callable<?> callable = () -> {
-            return new ForkJoinPool(100).submit(()-> {
+            return new ForkJoinPool(50).submit(()-> {
                 IntStream.range(0, 50).parallel().forEach(i -> {
                     try {
                         var s = getRequest(baseUrl + "/home").body();

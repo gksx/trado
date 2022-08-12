@@ -2,5 +2,5 @@ package org.trado;
 
 @FunctionalInterface
 public interface Group {
-    void addRoutes(Trado trado);
+    void addRoutes(Trado trado, String path);
 }
