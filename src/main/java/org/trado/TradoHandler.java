@@ -1,7 +1,6 @@
 package org.trado;
 
 import java.lang.reflect.Method;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -65,29 +64,26 @@ class TradoHandler implements Handler {
 
     @Override
     public void handle(Request request, Consumer<Response> callback) {
-        CompletableFuture.runAsync(internalHandle(request, callback), executor);
+        executor.execute(() -> callback.accept(internalHandle(request)));
     }
 
-    private Runnable internalHandle(Request request, Consumer<Response> callback) {
-        return () ->  { 
-            try {
-                if (tradoLogger.tradoTraceEnabled()) {
-                    tradoLogger.log(request.uri() + " " + request.method());
-                }
+    private Response internalHandle(Request request) {
+        try {
+            if (tradoLogger.tradoTraceEnabled()) {
+                tradoLogger.log(request.uri() + " " + request.method());
+            }
 
-                var tradoRequest = new TradoRequest(request);
+            var tradoRequest = new TradoRequest(request);
 
-                Response response = mapResponse(tradoRequest);
-                
-                callback.accept(response);    
-            } catch (Exception e) {
-                var tradoResponse = TradoController.internalError();
-                tradoLogger.log(tradoResponse.httpStatus().toString());
-                tradoLogger.log(e, "error internal handle");
-                callback.accept(tradoResponse.toResponse());
-            }            
-        };
+            return mapResponse(tradoRequest);
+        } catch (Exception e) {
+            var tradoResponse = TradoController.internalError();
+            tradoLogger.log(tradoResponse.httpStatus().toString());
+            tradoLogger.log(e, "error internal handle");
+            return tradoResponse.toResponse();
+        }            
     }
+    
 
     private Response mapResponse(TradoRequest tradoRequest) {
         try {

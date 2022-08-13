@@ -1,6 +1,5 @@
 package org.util;
 
-import org.trado.Action;
 import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoController;
@@ -55,9 +54,7 @@ public class TestServer {
 
                 trado.post(path, (req) -> TradoResponse.empty().build());
             })
-
             .path("/threads", (trado, path) -> {
-
                 trado.get(path, (req) -> {
                     try {
                         System.out.println(Thread.currentThread().getName() + "is sleeping");
@@ -77,12 +74,11 @@ public class TestServer {
                     }
                     return TradoResponse.empty().build();
                 });
-
             })
             .port(8080);
             
-      serverThread = new Thread(trado::growl);
-      serverThread.start();
+        serverThread = new Thread(trado::growl);
+        serverThread.start();
     }
 
     public static void stop() {
