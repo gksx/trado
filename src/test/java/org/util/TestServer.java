@@ -46,12 +46,10 @@ public class TestServer {
                     .contentType(ContentType.APPLICATION_JSON)
                     .build();
             })
-            .path("/group", (trado, path) -> {
-                
+            .path("/group", (trado, path) -> {                
                 trado.get(path, (req) -> {
                     return TradoResponse.empty().build();
                 });
-
                 trado.post(path, (req) -> TradoResponse.empty().build());
             })
             .path("/threads", (trado, path) -> {
@@ -60,8 +58,6 @@ public class TestServer {
                         System.out.println(Thread.currentThread().getName() + "is sleeping");
                         Thread.sleep(1000L);
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
                     }
                     return TradoResponse.empty().build();
                 });
@@ -69,8 +65,6 @@ public class TestServer {
                     try {
                         System.out.println(Thread.currentThread().getName() + "is sleeping");
                     } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
                     }
                     return TradoResponse.empty().build();
                 });
