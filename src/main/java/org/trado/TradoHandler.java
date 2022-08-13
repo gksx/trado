@@ -22,7 +22,7 @@ class TradoHandler implements Handler {
         this.routes = new Routes();
         this.requestFilters = new Filters<>();
         this.responseFilters = new Filters<>();
-        this.executor =  Executors.newSingleThreadExecutor();
+        this.executor =  Executors.newCachedThreadPool();
         this.tradoLogger = tradoLogger;
     }
 

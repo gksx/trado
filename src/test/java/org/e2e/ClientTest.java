@@ -13,6 +13,7 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
@@ -25,7 +26,7 @@ import org.util.TestServer;
 public class ClientTest {
 
     private static String baseUrl = "http://localhost:8080";
-    HttpClient httpClient = HttpClient.newHttpClient();
+    static HttpClient httpClient = HttpClient.newHttpClient();
 
     @BeforeAll
     public static void initServer(){
@@ -152,6 +153,30 @@ public class ClientTest {
     }
 
     @Test
+    public void expect_delay_from_thread_sleep() throws Exception {
+        var numberOfRequests = 2;
+        var executor = Executors.newFixedThreadPool(2);
+        var array = new CompletableFuture[numberOfRequests];
+        
+        array[0] = CompletableFuture.runAsync(()-> {
+            try {
+                var response = getRequest(baseUrl + "/threads");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }, executor);
+        array[1] = CompletableFuture.runAsync(()-> {
+            try {
+                var response = postRequest("", baseUrl + "/threads");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            }, executor);
+        
+        CompletableFuture.allOf(array).join();
+    }
+
+    @Test
     public void some_50_or_so_requests_in_parallel() throws Exception{
          Callable<?> callable = () -> {
             return new ForkJoinPool(50).submit(()-> {
@@ -195,7 +220,6 @@ public class ClientTest {
             .build();
 
         return httpClient.sendAsync(request, BodyHandlers.ofString());
-        
     }
 
     private HttpResponse<String> getRequest(String uri) throws Exception{
@@ -214,7 +238,7 @@ public class ClientTest {
             .POST(BodyPublishers.ofString(body))
             .build();
         
-        return HttpClient.newHttpClient()
+        return httpClient
             .send(request, BodyHandlers.ofString());
         
     }

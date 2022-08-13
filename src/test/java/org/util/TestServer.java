@@ -43,9 +43,9 @@ public class TestServer {
             })
             .get("/json", (req) -> {
                 return TradoResponse
-                .empty()
-                .contentType(ContentType.APPLICATION_JSON)
-                .build();
+                    .empty()
+                    .contentType(ContentType.APPLICATION_JSON)
+                    .build();
             })
             .path("/group", (trado, path) -> {
                 
@@ -54,6 +54,30 @@ public class TestServer {
                 });
 
                 trado.post(path, (req) -> TradoResponse.empty().build());
+            })
+
+            .path("/threads", (trado, path) -> {
+
+                trado.get(path, (req) -> {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + "is sleeping");
+                        Thread.sleep(1000L);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    return TradoResponse.empty().build();
+                });
+                trado.post(path, (req) -> {
+                    try {
+                        System.out.println(Thread.currentThread().getName() + "is sleeping");
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    return TradoResponse.empty().build();
+                });
+
             })
             .port(8080);
             
