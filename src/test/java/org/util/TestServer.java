@@ -30,6 +30,11 @@ public class TestServer {
                 return TradoResponse.content("foo")
                     .build();
             })
+            .get("redirect", (req) -> {
+                return TradoResponse
+                    .redirect("/filter")
+                    .build();
+            })
             .post("/echo", (req) -> {
                 return TradoResponse
                     .content(new String(req.request().body()))

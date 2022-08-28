@@ -8,7 +8,8 @@ public enum HttpStatus {
     BAD_REQUEST(400, "Bad Request"),
     NOT_FOUND(404, "Not Found"), 
     IM_A_TEAPOT(418, "I'm a teapot"),
-    INTERNAL_ERROR(500, "Internal Error"),
+    INTERNAL_ERROR(500, "Internal Error"), 
+    TEMPRORAY_REDIRECT(307, "Temporary Redirect"),
     ;
 
     private final int statusCode;

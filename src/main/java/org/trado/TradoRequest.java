@@ -25,10 +25,10 @@ public class TradoRequest {
     }
 
     private void bodyParams() {//TODO::
-        if (request.body().length > 0 && request.method() != "GET") {
-            var body = new String(request.body());
+        // if (request.body().length > 0 && request.method() != "GET") {
+        //     var body = new String(request.body());
             
-        }
+        // }
     }
 
     void mapRouteParams() {    

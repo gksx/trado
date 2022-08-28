@@ -35,6 +35,10 @@ public class TradoResponse {
         headers.put(name, value);
     }
 
+    public static Builder redirect(String redirectUri) {
+        return empty().redirect(redirectUri);
+    }
+
     public static Builder content(String content) {
         return new Builder(content.getBytes());
     }
@@ -90,6 +94,12 @@ public class TradoResponse {
 
         public Builder statusCode(int code){
             response.httpStatus = HttpStatus.byValue(code);
+            return this;
+        }
+
+        public Builder redirect(String redirectUri) {
+            response.httpStatus = HttpStatus.TEMPRORAY_REDIRECT;
+            response.headers.put("Location", redirectUri);
             return this;
         }
 
