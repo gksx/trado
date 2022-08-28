@@ -35,6 +35,5 @@ public class TrieTest {
         trie.insert("/home", "GET", stubAction);
         trie.insert("/home/error", "GET", stubAction);
         trie.insert("/home/away", "GET", stubAction);
-        var q ="";
     }
 }

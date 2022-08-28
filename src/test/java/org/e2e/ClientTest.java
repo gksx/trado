@@ -160,14 +160,14 @@ public class ClientTest {
         
         array[0] = CompletableFuture.runAsync(()-> {
             try {
-                var response = getRequest(baseUrl + "/threads");
+                getRequest(baseUrl + "/threads");
             } catch (Exception e) {
                 e.printStackTrace();
             }
             }, executor);
         array[1] = CompletableFuture.runAsync(()-> {
             try {
-                var response = postRequest("", baseUrl + "/threads");
+                postRequest("", baseUrl + "/threads");
             } catch (Exception e) {
                 e.printStackTrace();
             }
