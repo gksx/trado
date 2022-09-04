@@ -7,7 +7,6 @@ import org.trado.trie.RouteTrie;
 class Filters<T> {
 
     private final RouteTrie<T> routeTrie;
-    private int order = 0;
 
     Filters() {
         routeTrie = new RouteTrie<>();
@@ -19,8 +18,6 @@ class Filters<T> {
 
     Optional<T> get(String path, int order) {
        var requestFilter = routeTrie.action(path, Integer.toString(order));
-       return requestFilter != null
-        ? Optional.of(requestFilter)
-        : Optional.empty();
+       return Optional.ofNullable(requestFilter);
     }
 }

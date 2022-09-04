@@ -98,6 +98,6 @@ public class Trado {
                 <--------TRADO STARTING----->
                 <----------GRWOLING!-------->
                 <--------------------------->
-                           >on %d<""", options.port());
+                on %s:%d""", options.host(), options.port());
     }
 }

@@ -17,9 +17,7 @@ class Routes {
 
     Optional<Action> get(String path, String method) {
         var action = routeTrie.action(path, method);
-        return action != null 
-            ? Optional.of(action)
-            : Optional.empty();
+        return Optional.ofNullable(action);
     }
 
     private static String stripParamsFromPath(String path) {

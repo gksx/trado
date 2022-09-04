@@ -10,6 +10,7 @@ public class RouteTrie<V> {
     public void insert(String url, String identifier, V action) {
         var current = root;
         for (String part : url.split("/")) {
+            
             if (part.length() == 0) continue;
             
             current = current.children().computeIfAbsent(part, c -> new TrieNode<>());
@@ -20,6 +21,7 @@ public class RouteTrie<V> {
     public V action(String url, String identifier) {
         var current = root;
         for (String part : url.split("/")) {
+            
             if(part.length() == 0) continue;
 
             TrieNode<String, V> node;
