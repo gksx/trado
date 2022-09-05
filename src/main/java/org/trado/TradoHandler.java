@@ -88,19 +88,24 @@ class TradoHandler implements Handler {
     private Response mapResponse(TradoRequest tradoRequest) {
         try {
             requestFilters.get(tradoRequest.path(), 1)
-                .ifPresent(filter -> filter.apply(tradoRequest));
+                .ifPresent(filter -> filter.action().apply(tradoRequest));
         } catch (EndRequestException e) {
             return e.getResponse().toResponse();
         }
 
         var tradoResponse = routes
             .get(tradoRequest.path(), tradoRequest.request().method())
-            .map(route -> route.handle(tradoRequest))
+            .map(route -> {
+                 if (route.containsWildCard()){
+                    tradoRequest.mapRouteParams(route.wildCardPosition(), route.wildCardKey());
+                 }
+                 return route.action().handle(tradoRequest);
+            })
             .orElse(TradoController.notFound());       
 
         try {
             responseFilters.get(tradoRequest.path(), 1)
-                .ifPresent(filter -> filter.apply(tradoResponse));
+                .ifPresent(filter -> filter.action().apply(tradoResponse));
         } catch (EndRequestException e) {
             return e.getResponse().toResponse();
         }    

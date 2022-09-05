@@ -1,11 +1,11 @@
-package org.trado.trie;
+package org.trado;
 
 import java.util.HashMap;
 import java.util.Map;
 
 class TrieNode<K, V> {
-    private Map<String, TrieNode<K, V>> children;
-    private Map<K, V> methodActions;
+    private final Map<String, TrieNode<K, V>> children;
+    private final Map<K, V> methodActions;
     TrieNode() {
         children = new HashMap<>();
         methodActions = new HashMap<>();
@@ -21,5 +21,9 @@ class TrieNode<K, V> {
 
     V action(K key) {
         return methodActions.get(key);
+    }
+
+    int size() {
+        return methodActions.size();
     }
 }

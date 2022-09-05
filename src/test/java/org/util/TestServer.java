@@ -74,6 +74,9 @@ public class TestServer {
                     return TradoResponse.empty().build();
                 });
             })
+            .get("/params/:bar", (req) -> {
+                return TradoResponse.content(req.params("bar")).build();
+            })
             .port(8080);
             
         serverThread = new Thread(trado::growl);

@@ -2,20 +2,26 @@ package org.trado;
 
 import java.util.Optional;
 
-import org.trado.trie.RouteTrie;
-
 class Routes {
-    private final RouteTrie<Action> routeTrie;
+    private final RouteTrie<RouteAction<Action>> routeTrie;
 
     Routes(){
-        routeTrie = new RouteTrie<>();
+        routeTrie = new RouteTrie<RouteAction<Action>>();
     }
 
-    void add(String path, String method, Action action){        
-        routeTrie.insert(stripParamsFromPath(path), method, action);
+    void add(String path, String method, Action action) {
+        RouteAction<Action> routeAction;
+        if (path.contains(":")) {
+            routeAction = new RouteAction<>(action, true);
+        } else {
+            routeAction = new RouteAction<>(action);
+        }
+            
+
+        routeTrie.insert(stripParamsFromPath(path), method, routeAction);
     }
 
-    Optional<Action> get(String path, String method) {
+    Optional<RouteAction<Action>> get(String path, String method) {
         var action = routeTrie.action(path, method);
         return Optional.ofNullable(action);
     }

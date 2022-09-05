@@ -21,18 +21,7 @@ public class TradoRequest {
 
     private void mapParams() {
         queryParams();
-        bodyParams();
-    }
-
-    private void bodyParams() {//TODO::
-        // if (request.body().length > 0 && request.method() != "GET") {
-        //     var body = new String(request.body());
-            
-        // }
-    }
-
-    void mapRouteParams() {    
-    }
+    }    
 
     private void queryParams() {
         try {
@@ -68,5 +57,10 @@ public class TradoRequest {
 
     public void end() {
         throw new EndRequestException(null);
+    }
+
+    void mapRouteParams(int wildCardPosition, String wildCardKey) {
+        var param = this.request.uri().split("/")[wildCardPosition];
+        params.put(wildCardKey, param);
     }
 }

@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.trado.ContentType;
 import org.util.TestServer;
@@ -210,6 +211,12 @@ public class ClientTest {
         }
 
         CompletableFuture.allOf(array).join();
+    }
+
+    @Test
+    public void test_route_params() throws Exception {
+        var request = getRequest(baseUrl + "/params/foo");
+        assertTrue(request.body().contains("foo"));
     }
 
     private CompletableFuture<HttpResponse<String>> getAsync(String uri) throws Exception{
