@@ -9,11 +9,14 @@ import org.trado.TradoResponse;
 
 import static org.trado.TradoResponse.*;
 
+import java.util.Optional;
+
 public class HomeController extends TradoController {
 
     @HttpMethod("GET")
     public TradoResponse index(TradoRequest request){
-        return content("bar")
+        var param = Optional.ofNullable(request.params("q"));
+        return content(param.orElse("foo"))
             .build();
     }
 

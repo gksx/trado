@@ -1,5 +1,7 @@
 package org.trado;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +33,9 @@ public class TradoRequest {
             var array = this.request.uri().split("\\?")[1].split("\\&");
             for (String keyVal : array) {
                 var keyValues = keyVal.split("\\=");
-                params.put(keyValues[0], keyValues[1]);      
+                var decodedKey = URLDecoder.decode(keyValues[0], StandardCharsets.UTF_8);
+                var decodedValue = URLDecoder.decode(keyValues[1], StandardCharsets.UTF_8);
+                params.put(decodedKey, decodedValue);
             }
         }
         catch (Exception ex) {

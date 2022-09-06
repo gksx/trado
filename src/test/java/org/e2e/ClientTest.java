@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -39,12 +41,6 @@ public class ClientTest {
     }
 
     @Test
-    public void expect_bar_from_controller() throws Exception{
-        var response = getRequest(baseUrl + "/home");
-        assertTrue(response.body().contains("bar"));
-    }
-
-    @Test
     public void expect_200_status() throws Exception {
         var response = getRequest(baseUrl);
         assertEquals(response.statusCode(), 200);
@@ -61,7 +57,14 @@ public class ClientTest {
     @Test
     public void expect_200_wiht_queryParams() throws Exception {
         var response = getRequest(baseUrl + "/home?q=foo");
-        assertTrue(response.body().contains("bar"));
+        assertTrue(response.body().contains("foo"));
+    }
+
+    @Test
+    public void expect_decoded_query_param() throws Exception {
+        var encodedParam = URLEncoder.encode("foo and bar", StandardCharsets.UTF_8);
+        var response = getRequest(baseUrl + "/home?q=" + encodedParam);
+        assertTrue(response.body().contains("foo and bar"));
     }
 
     @Test
@@ -203,7 +206,7 @@ public class ClientTest {
 
     @Test
     public void some_async_requests_after_another() throws Exception{
-        var numberOfRequests = 100;
+        var numberOfRequests = 50;
         var array = new CompletableFuture[numberOfRequests];
         for (int i = 0; i < numberOfRequests; i++) {
             array[i] = getAsync(baseUrl + "/home");    
