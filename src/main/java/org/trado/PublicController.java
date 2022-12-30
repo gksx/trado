@@ -22,7 +22,7 @@ class PublicController extends TradoController {
                 }
             }
             return TradoResponse.raw(Files.readAllBytes(actual.toPath()))
-                .contentType(ContentType.APPLICATION_JAVASCRIPT)
+                .contentType(convertToContentType(fileName))
                 .build();
 
         } catch (Exception e) {  
@@ -32,5 +32,16 @@ class PublicController extends TradoController {
         return TradoResponse.empty()
             .notFound()
             .build();
+    }
+
+    private String convertToContentType(String fileName) {
+        if(fileName == null)
+            return ContentType.TEXT_PLAIN;
+        var fileEnding = fileName.split("\\.");
+        switch (fileEnding[fileEnding.length-1]) {
+            case "js": return ContentType.APPLICATION_JAVASCRIPT;
+            case "css": return ContentType.TEXT_CSS;
+            default: return ContentType.TEXT_PLAIN;
+        }
     }
 }

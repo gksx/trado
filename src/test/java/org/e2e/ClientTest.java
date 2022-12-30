@@ -116,6 +116,13 @@ public class ClientTest {
     }
 
     @Test
+    public void expect_style_css_in_return() throws Exception{
+        var response = getRequest(baseUrl + "/public/styles.css");
+        assertTrue(response.body().contains("body"));
+        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.TEXT_CSS));
+    }
+
+    @Test
     public void expect_away_route() throws Exception{
         var response = getRequest(baseUrl + "/home/away");
         assertEquals(200, response.statusCode());
