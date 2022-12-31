@@ -16,7 +16,6 @@ class Routes {
         } else {
             routeAction = new RouteAction<>(action);
         }
-            
 
         routeTrie.insert(stripParamsFromPath(path), method, routeAction);
     }

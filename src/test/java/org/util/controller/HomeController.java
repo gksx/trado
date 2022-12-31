@@ -2,10 +2,10 @@ package org.util.controller;
 
 import org.trado.HttpMethod;
 import org.trado.Route;
-import org.trado.TradoController;
 import org.trado.TradoException;
 import org.trado.TradoRequest;
 import org.trado.TradoResponse;
+import org.trado.controller.TradoController;
 
 import static org.trado.TradoResponse.*;
 

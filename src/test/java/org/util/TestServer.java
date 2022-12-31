@@ -2,8 +2,8 @@ package org.util;
 
 import org.trado.ContentType;
 import org.trado.Trado;
-import org.trado.TradoController;
 import org.trado.TradoResponse;
+import org.trado.controller.TradoController;
 import org.util.controller.HomeController;
 
 public class TestServer {

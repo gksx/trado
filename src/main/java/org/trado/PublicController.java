@@ -3,6 +3,8 @@ package org.trado;
 import java.io.File;
 import java.nio.file.Files;
 
+import org.trado.controller.TradoController;
+
 
 class PublicController extends TradoController {
 

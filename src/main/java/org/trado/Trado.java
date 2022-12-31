@@ -2,6 +2,7 @@ package org.trado;
 
 import org.microhttp.EventLoop;
 import org.microhttp.Options;
+import org.trado.controller.TradoController;
 
 public class Trado {
 

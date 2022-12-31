@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import org.microhttp.Handler;
 import org.microhttp.Request;
 import org.microhttp.Response;
+import org.trado.controller.TradoController;
 
 class TradoHandler implements Handler {
 

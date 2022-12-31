@@ -1,14 +1,17 @@
-package org.trado;
+package org.trado.controller;
+
+import org.trado.EndRequestException;
+import org.trado.TradoResponse;
 
 public abstract class TradoController {
 
-    protected static TradoResponse notFound(){
+    public static TradoResponse notFound(){
         return TradoResponse.content(errorPage(404))
             .statusCode(404)
             .build();
     }
 
-    protected static TradoResponse internalError(){
+    public static TradoResponse internalError(){
         return TradoResponse.content(errorPage(500))
             .statusCode(500)
             .build();
