@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import org.trado.controller.TradoController;
 
 
-class PublicController extends TradoController {
+class StaticController extends TradoController {
 
     @HttpMethod("GET")
     @Route(":fileName")

@@ -1,19 +1,24 @@
-package org.util;
+package org.e2e.util;
 
+import org.e2e.util.controller.HomeController;
 import org.trado.ContentType;
 import org.trado.Trado;
+import org.trado.TradoOptions;
 import org.trado.TradoResponse;
 import org.trado.controller.TradoController;
-import org.util.controller.HomeController;
 
 public class TestServer {
     
     static Thread serverThread;
     static Trado trado;
     public static void startInstance(){
-        trado = new Trado()
+
+        var options = new TradoOptions()
+            .withStaticPath("/public");
+
+        trado = new Trado(options)
             .controller("/home", HomeController.class)
-            .usePublicController()
+            .addStaticController()
             .requestFilter("/filter", 1, (req) -> {
                 TradoController.end();
             })
@@ -75,7 +80,7 @@ public class TestServer {
                 });
             })
             .get("/params/:bar", (req) -> {
-                return TradoResponse.content(req.params("bar")).build();
+                return TradoResponse.content(req.params("bar").orElse("not found")).build();
             })
             .port(8080);
             

@@ -22,8 +22,8 @@ public class TradoRequestTest {
         
         var tradoRequest = new TradoRequest(request);
         assertTrue(tradoRequest.params().size() == 2);
-        assertTrue(tradoRequest.params("foo").equals("bar"));
-        assertTrue(tradoRequest.params("bar").equals("foo"));
+        assertTrue(tradoRequest.params("foo").get().equals("bar"));
+        assertTrue(tradoRequest.params("bar").get().equals("foo"));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class TradoRequestTest {
         
         var tradoRequest = new TradoRequest(request);
         assertTrue(tradoRequest.params().size() == 1);
-        assertTrue(tradoRequest.params("bar").equals("foo"));   
+        assertTrue(tradoRequest.params("bar").get().equals("foo"));   
     }
 
     @Test

@@ -1,29 +1,28 @@
 package org.trado;
 
 import org.microhttp.EventLoop;
-import org.microhttp.Options;
 import org.trado.controller.TradoController;
 
 public class Trado {
 
     private final TradoHandler tradoHandler;
-    private final Options options;
+    private final TradoOptions options;
     private final TradoLogger logger;
     private EventLoop eventLoop;
     
     public Trado(){
-        this(new Options(), new TradoRequestLogger());
+        this(new TradoOptions(), new TradoRequestLogger());
     }
 
-    public Trado(Options options) {
+    public Trado(TradoOptions options) {
         this(options, new TradoRequestLogger());
     }
 
     public Trado(TradoLogger tradoLogger) {
-        this(new Options(), tradoLogger);
+        this(new TradoOptions(), tradoLogger);
     }
 
-    public Trado(Options options, TradoLogger tradoLogger){
+    public Trado(TradoOptions options, TradoLogger tradoLogger){
         this.tradoHandler = new TradoHandler(tradoLogger);
         this.logger = tradoLogger;
         this.options = options;
@@ -34,8 +33,8 @@ public class Trado {
         return this;
     }
 
-    public Trado usePublicController(){
-        tradoHandler.initController("/public", PublicController.class);
+    public Trado addStaticController(){
+        tradoHandler.initController(options.staticPath(), StaticController.class);
         return this;
     }
 

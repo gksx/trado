@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.microhttp.Request;
 /**
@@ -51,8 +52,8 @@ public class TradoRequest {
         return path;
     }
 
-    public String params(String property) {
-        return params.get(property);
+    public Optional<String> params(String property) {
+        return Optional.ofNullable(params.get(property));
     }
 
     public Map<String, String> params(){

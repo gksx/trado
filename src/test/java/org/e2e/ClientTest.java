@@ -19,11 +19,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
+import org.e2e.util.TestServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.trado.ContentType;
-import org.util.TestServer;
 
 public class ClientTest {
 

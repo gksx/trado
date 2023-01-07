@@ -1,4 +1,4 @@
-package org.util.controller;
+package org.e2e.util.controller;
 
 import org.trado.HttpMethod;
 import org.trado.Route;
@@ -9,14 +9,12 @@ import org.trado.controller.TradoController;
 
 import static org.trado.TradoResponse.*;
 
-import java.util.Optional;
-
 public class HomeController extends TradoController {
 
     @HttpMethod("GET")
     public TradoResponse index(TradoRequest request){
-        var param = Optional.ofNullable(request.params("q"));
-        return content(param.orElse("foo"))
+        
+        return content(request.params("q").orElse("foo"))
             .build();
     }
 
