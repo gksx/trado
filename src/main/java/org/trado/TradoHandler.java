@@ -50,7 +50,7 @@ class TradoHandler implements Handler {
 
                     return (TradoResponse)m.invoke(controllerInstance, req);
                 } catch (Exception e) {
-                    throw new TradoException("Invoking action", e.getCause());
+                    throw new TradoException("Invoking action", e);
                 }
             });
         }

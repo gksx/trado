@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import org.microhttp.LogEntry;
 
-public class TradoRequestLogger extends TradoLogger {
+public class TradoRequestLogger implements TradoLogger {
     
     private final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
 
@@ -45,7 +45,7 @@ public class TradoRequestLogger extends TradoLogger {
     }
 
     @Override
-    boolean tradoTraceEnabled() {
+    public boolean tradoTraceEnabled() {
         return true;
     }
 }

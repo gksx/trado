@@ -2,8 +2,8 @@ package org.trado;
 
 import org.microhttp.Logger;
 
-public abstract class TradoLogger implements Logger{
-    abstract void log(String entry);
-    abstract void log(Exception e, String entry);
-    abstract boolean tradoTraceEnabled();
+public interface TradoLogger extends Logger {
+    void log(String entry);
+    void log(Exception e, String entry);
+    boolean tradoTraceEnabled();
 }
