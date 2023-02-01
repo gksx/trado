@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 import org.microhttp.Handler;
 import org.microhttp.Request;
@@ -84,12 +85,14 @@ class TradoHandler implements Handler {
             return tradoResponse.toResponse();
         }            
     }
-    
 
     private Response mapResponse(TradoRequest tradoRequest) {
         try {
-            requestFilters.get(tradoRequest.path(), 1)
-                .ifPresent(filter -> filter.action().apply(tradoRequest));
+            var numberOfRequestFilters = requestFilters.size(tradoRequest.path());
+            for (int i = 1; i < numberOfRequestFilters + 1; i++) {
+                requestFilters.get(tradoRequest.path(), i)
+                    .ifPresent(filter -> filter.action().apply(tradoRequest));
+            }
         } catch (EndRequestException e) {
             return e.getResponse().toResponse();
         }
@@ -105,8 +108,11 @@ class TradoHandler implements Handler {
             .orElse(TradoController.notFound());       
 
         try {
-            responseFilters.get(tradoRequest.path(), 1)
-                .ifPresent(filter -> filter.action().apply(tradoResponse));
+            var numberOfResponseFilters = responseFilters.size(tradoRequest.path());
+            for (int i = 1; i < numberOfResponseFilters + 1; i++) {
+                responseFilters.get(tradoRequest.path(), i)
+                    .ifPresent(filter -> filter.action().apply(tradoResponse));
+            }
         } catch (EndRequestException e) {
             return e.getResponse().toResponse();
         }    
@@ -121,7 +127,7 @@ class TradoHandler implements Handler {
         requestFilters.add(path, order, requestFilter);
     }
 
-    public void addRequestFilter(String path, int order, ResponseFilter responseFilter) {
+    void addResponseFilter(String path, int order, ResponseFilter responseFilter) {
         responseFilters.add(path, order, responseFilter);
     }
 }

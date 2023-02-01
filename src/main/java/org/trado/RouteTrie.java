@@ -27,7 +27,12 @@ public class RouteTrie<V extends RouteAction<?>> {
         
     }
 
-    public V action(String url, String identifier) {
+    public int size(String url) {
+        var current = findNode(url);
+        return current == null ? 0 : current.size();
+    }
+
+    private TrieNode<String, V> findNode(String url) {
         var current = root;
         for (String part : url.split("/")) {
             
@@ -53,6 +58,13 @@ public class RouteTrie<V extends RouteAction<?>> {
         
             current = node;
         }
-        return current.action(identifier);
+        return current;
     }
+
+    public V action(String url, String identifier) {
+        var current = findNode(url);
+        return current == null ? null : current.action(identifier);
+    }
+
+
 }

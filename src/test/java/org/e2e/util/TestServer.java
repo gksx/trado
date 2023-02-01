@@ -25,6 +25,9 @@ public class TestServer {
             .responseFilter("/after-filter", 1, (res) -> {
                 res.header("x-user", "gksx");
             })
+            .responseFilter("/after-filter", 2, (res) -> {
+                res.header("x-token", "token");
+            })
             .get("/filter", (req) -> {
                 return TradoResponse.empty().build();
             })

@@ -142,6 +142,13 @@ public class ClientTest {
     }
 
     @Test
+    public void expect_second_header_from_filter() throws Exception {
+        var response = getRequest(baseUrl + "/after-filter");
+        var header = response.headers().firstValue("x-token").get();
+        assertEquals("token", header);
+    }
+
+    @Test
     public void expect_header_from_filter_not_existing() throws Exception {
         var response = getRequest(baseUrl + "/home");
         var header = response.headers().firstValue("x-user");

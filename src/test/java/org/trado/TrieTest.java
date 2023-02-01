@@ -38,4 +38,14 @@ public class TrieTest {
         trie.insert("/home/away", "GET", stubAction);
         trie.insert("/home/away", "POST", stubAction);
     }
+
+    @Test
+    public void size() {
+        var trie = new RouteTrie<RouteAction<Action>>();
+        trie.insert("/home/away", "GET", stubAction);
+        trie.insert("/home/away", "POST", stubAction);
+        var actual = trie.size("/home/away");
+        assertEquals(2, actual);
+
+    }
 }

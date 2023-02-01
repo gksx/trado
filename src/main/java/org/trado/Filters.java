@@ -18,4 +18,8 @@ class Filters<T> {
        var requestFilter = routeTrie.action(path, Integer.toString(order));
        return Optional.ofNullable(requestFilter);
     }
+
+    int size(String path) {
+        return routeTrie.size(path);
+    }
 }

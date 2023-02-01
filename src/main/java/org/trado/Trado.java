@@ -74,7 +74,7 @@ public class Trado {
     }
 
     public Trado responseFilter(String path, int order, ResponseFilter responseFilter){
-        tradoHandler.addRequestFilter(path, order, responseFilter);
+        tradoHandler.addResponseFilter(path, order, responseFilter);
         return this;
     }
 
