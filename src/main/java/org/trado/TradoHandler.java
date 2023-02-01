@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import java.util.stream.IntStream;
 
 import org.microhttp.Handler;
 import org.microhttp.Request;
