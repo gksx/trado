@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 class TrieNode<K, V> {
-    private final Map<String, TrieNode<K, V>> children;
+    private final Map<K, TrieNode<K, V>> children;
     private final Map<K, V> methodActions;
     TrieNode() {
         children = new HashMap<>();
         methodActions = new HashMap<>();
     }
 
-    Map<String, TrieNode<K, V>> children(){
+    Map<K, TrieNode<K, V>> children(){
         return children;
     }
 
