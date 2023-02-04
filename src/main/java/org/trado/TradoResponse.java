@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.microhttp.Header;
 import org.microhttp.Response;
+import org.trado.http.ContentType;
+import org.trado.http.HttpStatus;
 
 public class TradoResponse {
     

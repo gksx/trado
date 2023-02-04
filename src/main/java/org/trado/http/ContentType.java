@@ -1,4 +1,6 @@
-package org.trado;
+package org.trado.http;
+
+import org.trado.TradoException;
 
 public class ContentType {
     

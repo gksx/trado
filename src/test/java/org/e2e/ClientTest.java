@@ -23,7 +23,7 @@ import org.e2e.util.TestServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.trado.ContentType;
+import org.trado.http.ContentType;
 
 public class ClientTest {
 

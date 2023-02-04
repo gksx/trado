@@ -1,6 +1,8 @@
-package org.trado;
+package org.trado.http;
 
 import java.util.stream.Stream;
+
+import org.trado.TradoException;
 
 public enum HttpStatus {
     
@@ -33,7 +35,7 @@ public enum HttpStatus {
         return statusCode + "(" + reason + ")";
     }
 
-    public static HttpStatus byValue(int code){
+    public static HttpStatus byValue(int code) {
         return Stream.of(HttpStatus.values())
             .filter(e -> e.code() == code)
             .findFirst()

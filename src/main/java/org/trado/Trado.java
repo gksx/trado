@@ -2,6 +2,7 @@ package org.trado;
 
 import org.microhttp.EventLoop;
 import org.trado.controller.TradoController;
+import org.trado.http.HttpMethod.Method;
 
 public class Trado {
 
@@ -44,22 +45,22 @@ public class Trado {
     }
 
     public Trado get(String uri, Action action) {
-        tradoHandler.addAction(uri, "GET" ,action);
+        tradoHandler.addAction(uri, Method.GET ,action);
         return this;
     }
 
     public Trado post(String uri, Action action) {
-        tradoHandler.addAction(uri, "POST", action);
+        tradoHandler.addAction(uri, Method.POST, action);
         return this;
     }
 
     public Trado put(String uri, Action action) {
-        tradoHandler.addAction(uri, "PUT", action);
+        tradoHandler.addAction(uri, Method.PUT, action);
         return this;
     }
 
     public Trado delete(String uri, Action action) {
-        tradoHandler.addAction(uri, "DELETE", action);
+        tradoHandler.addAction(uri, Method.DELETE, action);
         return this;
     }
 

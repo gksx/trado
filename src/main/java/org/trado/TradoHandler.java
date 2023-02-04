@@ -9,6 +9,7 @@ import org.microhttp.Handler;
 import org.microhttp.Request;
 import org.microhttp.Response;
 import org.trado.controller.TradoController;
+import org.trado.http.HttpMethod;
 
 class TradoHandler implements Handler {
 
@@ -42,7 +43,7 @@ class TradoHandler implements Handler {
                 path = uri;
             }
             
-            routes.add(path, httpMethodOnController, (req) -> {
+            routes.add(path, httpMethodOnController.name(), (req) -> {
                 try {
                     var controllerInstance  = (TradoController)controller
                         .getDeclaredConstructors()[0]
@@ -58,8 +59,8 @@ class TradoHandler implements Handler {
         return this;
     }
 
-    TradoHandler addAction(String uri, String method, Action action){
-        routes.add(uri, method, action);
+    TradoHandler addAction(String uri, HttpMethod.Method method, Action action){
+        routes.add(uri, method.name(), action);
         return this;
     }
 

@@ -1,13 +1,13 @@
 package org.trado;
 
-public class RouteTrie<V extends RouteAction<?>> {
+class RouteTrie<V extends RouteAction<?>> {
     private TrieNode<String, V> root;
 
     public RouteTrie() {
         root = new TrieNode<>();
     }
 
-    public void insert(String url, String identifier, V action) {
+    void insert(String url, String identifier, V action) {
         var current = root;
         String actualKey = "";
         int pos = 0;
@@ -27,7 +27,7 @@ public class RouteTrie<V extends RouteAction<?>> {
         
     }
 
-    public int size(String url) {
+    int size(String url) {
         var current = findNode(url);
         return current == null ? 0 : current.size();
     }
@@ -61,10 +61,8 @@ public class RouteTrie<V extends RouteAction<?>> {
         return current;
     }
 
-    public V action(String url, String identifier) {
+    V action(String url, String identifier) {
         var current = findNode(url);
         return current == null ? null : current.action(identifier);
     }
-
-
 }

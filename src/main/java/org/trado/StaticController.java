@@ -1,10 +1,13 @@
 package org.trado;
 
 import org.trado.controller.TradoController;
+import org.trado.http.ContentType;
+import org.trado.http.HttpMethod.Method;
+import org.trado.http.HttpMethod;
 
 class StaticController extends TradoController {
 
-    @HttpMethod("GET")
+    @HttpMethod(Method.GET)
     @Route(":fileName")
     public TradoResponse resource(TradoRequest tradoRequest){
         try {

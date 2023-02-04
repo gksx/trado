@@ -1,11 +1,11 @@
 package org.e2e.util;
 
 import org.e2e.util.controller.HomeController;
-import org.trado.ContentType;
 import org.trado.Trado;
 import org.trado.TradoOptions;
 import org.trado.TradoResponse;
 import org.trado.controller.TradoController;
+import org.trado.http.ContentType;
 
 public class TestServer {
     

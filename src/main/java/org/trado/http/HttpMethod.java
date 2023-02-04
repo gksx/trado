@@ -1,4 +1,4 @@
-package org.trado;
+package org.trado.http;
 
 
 import java.lang.annotation.ElementType;
@@ -9,6 +9,16 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface HttpMethod {
-    String[] value() default {};
+
+    Method[] value() default { Method.GET};
+
+
+
+    public enum Method {
+        GET,
+        POST,
+        PUT,
+        DELETE
+    }
 
 }
