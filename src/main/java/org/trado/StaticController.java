@@ -1,9 +1,10 @@
 package org.trado;
 
+import org.trado.controller.HttpMethod;
+import org.trado.controller.Route;
 import org.trado.controller.TradoController;
+import org.trado.http.Method;
 import org.trado.http.ContentType;
-import org.trado.http.HttpMethod.Method;
-import org.trado.http.HttpMethod;
 
 class StaticController extends TradoController {
 
@@ -14,20 +15,18 @@ class StaticController extends TradoController {
             
             var pathArray = tradoRequest.request().uri().split("/");
             var fileName = pathArray[pathArray.length - 1];
-            
-            var bytes = getClass().getClassLoader().getResourceAsStream("public/" + fileName).readAllBytes();
+            var bytes = getClass()
+                .getClassLoader()
+                .getResourceAsStream(tradoRequest.options().staticDirectory() + fileName)
+                .readAllBytes();
             
             return TradoResponse.raw(bytes)
                 .contentType(convertToContentType(fileName))
                 .build();
 
         } catch (Exception e) {  
-            e.printStackTrace();
+            throw new TradoException("error in reading static resource", e);
         }
-        
-        return TradoResponse.empty()
-            .notFound()
-            .build();
     }
 
     private String convertToContentType(String fileName) {

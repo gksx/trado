@@ -20,7 +20,7 @@ public class TradoRequestTest {
             new ArrayList<>(), 
             embtyByteArray);
         
-        var tradoRequest = new TradoRequest(request);
+        var tradoRequest = new TradoRequest(request, new TradoOptions());
         assertTrue(tradoRequest.params().size() == 2);
         assertTrue(tradoRequest.params("foo").get().equals("bar"));
         assertTrue(tradoRequest.params("bar").get().equals("foo"));
@@ -35,7 +35,7 @@ public class TradoRequestTest {
             new ArrayList<>(), 
             embtyByteArray);
         
-        var tradoRequest = new TradoRequest(request);
+        var tradoRequest = new TradoRequest(request, new TradoOptions());
         assertTrue(tradoRequest.params().size() == 1);
         assertTrue(tradoRequest.params("bar").get().equals("foo"));   
     }
@@ -49,7 +49,7 @@ public class TradoRequestTest {
             new ArrayList<>(), 
             embtyByteArray);
         
-        var tradoRequest = new TradoRequest(request);
+        var tradoRequest = new TradoRequest(request, new TradoOptions());
         assertTrue(tradoRequest.params().size() == 0);
     }
 }

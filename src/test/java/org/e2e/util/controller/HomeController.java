@@ -1,12 +1,12 @@
 package org.e2e.util.controller;
 
-import org.trado.Route;
 import org.trado.TradoException;
 import org.trado.TradoRequest;
 import org.trado.TradoResponse;
+import org.trado.controller.HttpMethod;
+import org.trado.controller.Route;
 import org.trado.controller.TradoController;
-import org.trado.http.HttpMethod;
-import org.trado.http.HttpMethod.Method;
+import org.trado.http.Method;
 
 import static org.trado.TradoResponse.*;
 

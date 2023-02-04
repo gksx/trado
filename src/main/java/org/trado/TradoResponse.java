@@ -7,11 +7,11 @@ import java.util.Map;
 import org.microhttp.Header;
 import org.microhttp.Response;
 import org.trado.http.ContentType;
-import org.trado.http.HttpStatus;
+import org.trado.http.Status;
 
 public class TradoResponse {
     
-    private HttpStatus httpStatus = HttpStatus.OK;
+    private Status httpStatus = Status.OK;
     private String contentType = ContentType.TEXT_HTML;
     private final Map<String, String> headers;
     private byte[] content;
@@ -25,7 +25,7 @@ public class TradoResponse {
         headers.put(X_POWERED_BY, "trado");
     }
 
-    public HttpStatus httpStatus(){
+    public Status httpStatus(){
         return httpStatus;
     }
 
@@ -75,7 +75,7 @@ public class TradoResponse {
         }
 
         public Builder ok(){
-            response.httpStatus = HttpStatus.OK;
+            response.httpStatus = Status.OK;
             return this;
         }
 
@@ -85,22 +85,22 @@ public class TradoResponse {
         }
 
         public Builder badRequest(){
-            response.httpStatus = HttpStatus.BAD_REQUEST;
+            response.httpStatus = Status.BAD_REQUEST;
             return this;
         }
 
         public Builder brew(){
-            response.httpStatus = HttpStatus.IM_A_TEAPOT;
+            response.httpStatus = Status.IM_A_TEAPOT;
             return this;
         }
 
         public Builder statusCode(int code){
-            response.httpStatus = HttpStatus.byValue(code);
+            response.httpStatus = Status.byValue(code);
             return this;
         }
 
         public Builder redirect(String redirectUri) {
-            response.httpStatus = HttpStatus.TEMPRORAY_REDIRECT;
+            response.httpStatus = Status.TEMPRORAY_REDIRECT;
             response.headers.put("Location", redirectUri);
             return this;
         }
@@ -111,7 +111,7 @@ public class TradoResponse {
         }
 
         public Builder notFound() {
-            response.httpStatus = HttpStatus.NOT_FOUND;
+            response.httpStatus = Status.NOT_FOUND;
             return this;
         }
     }

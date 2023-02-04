@@ -4,7 +4,7 @@ import java.util.stream.Stream;
 
 import org.trado.TradoException;
 
-public enum HttpStatus {
+public enum Status {
     
     OK(200, "OK"),
     BAD_REQUEST(400, "Bad Request"),
@@ -17,7 +17,7 @@ public enum HttpStatus {
     private final int statusCode;
     private final String reason;
 
-    private HttpStatus(int statusCode, String reason) {
+    private Status(int statusCode, String reason) {
         this.statusCode = statusCode;
         this.reason = reason;
     }
@@ -35,8 +35,8 @@ public enum HttpStatus {
         return statusCode + "(" + reason + ")";
     }
 
-    public static HttpStatus byValue(int code) {
-        return Stream.of(HttpStatus.values())
+    public static Status byValue(int code) {
+        return Stream.of(Status.values())
             .filter(e -> e.code() == code)
             .findFirst()
             .orElseThrow(()-> new TradoException("unnkown http status: " + code));

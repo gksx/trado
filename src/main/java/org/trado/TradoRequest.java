@@ -14,8 +14,10 @@ public class TradoRequest {
     private final Request request;
     private final Map<String, String> params; 
     private final String path;
+    private final TradoOptions options;
 
-    public TradoRequest(Request request){
+    public TradoRequest(Request request, TradoOptions tradoOptions){
+        this.options = tradoOptions;
         this.request = request;
         params = new HashMap<>();
         this.path = request.uri().split("\\?")[0];
@@ -50,6 +52,10 @@ public class TradoRequest {
 
     public String path(){
         return path;
+    }
+
+    public TradoOptions options() {
+        return options;
     }
 
     public Optional<String> params(String property) {

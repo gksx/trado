@@ -1,6 +1,5 @@
 package org.trado;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -8,8 +7,10 @@ import java.util.function.Consumer;
 import org.microhttp.Handler;
 import org.microhttp.Request;
 import org.microhttp.Response;
+import org.trado.controller.HttpMethod;
+import org.trado.controller.Route;
 import org.trado.controller.TradoController;
-import org.trado.http.HttpMethod;
+import org.trado.http.Method;
 
 class TradoHandler implements Handler {
 
@@ -18,8 +19,10 @@ class TradoHandler implements Handler {
     private final TradoLogger tradoLogger;
     private final Filters<RequestFilter> requestFilters;
     private final Filters<ResponseFilter> responseFilters;
+    private final TradoOptions tradoOptions;
 
-    TradoHandler(TradoLogger tradoLogger) {
+    TradoHandler(TradoLogger tradoLogger, TradoOptions tradoOptions) {
+        this.tradoOptions = tradoOptions;
         this.routes = new Routes();
         this.requestFilters = new Filters<>();
         this.responseFilters = new Filters<>();
@@ -28,7 +31,7 @@ class TradoHandler implements Handler {
     }
 
     TradoHandler initController(String uri, Class<? extends TradoController> controller){    
-        for (Method m : controller.getMethods()) {
+        for (java.lang.reflect.Method m : controller.getMethods()) {
             var httpMethod = m.getAnnotation(HttpMethod.class);
             if (httpMethod == null){
                 continue;
@@ -59,7 +62,7 @@ class TradoHandler implements Handler {
         return this;
     }
 
-    TradoHandler addAction(String uri, HttpMethod.Method method, Action action){
+    TradoHandler addAction(String uri, Method method, Action action){
         routes.add(uri, method.name(), action);
         return this;
     }
@@ -75,7 +78,7 @@ class TradoHandler implements Handler {
                 tradoLogger.log(request.uri() + " " + request.method());
             }
 
-            var tradoRequest = new TradoRequest(request);
+            var tradoRequest = new TradoRequest(request, tradoOptions);
 
             return mapResponse(tradoRequest);
         } catch (Exception e) {

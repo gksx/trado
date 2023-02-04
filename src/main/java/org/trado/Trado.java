@@ -2,7 +2,7 @@ package org.trado;
 
 import org.microhttp.EventLoop;
 import org.trado.controller.TradoController;
-import org.trado.http.HttpMethod.Method;
+import org.trado.http.Method;
 
 public class Trado {
 
@@ -24,7 +24,7 @@ public class Trado {
     }
 
     public Trado(TradoOptions options, TradoLogger tradoLogger){
-        this.tradoHandler = new TradoHandler(tradoLogger);
+        this.tradoHandler = new TradoHandler(tradoLogger, options);
         this.logger = tradoLogger;
         this.options = options;
     }
