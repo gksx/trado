@@ -11,6 +11,7 @@ import org.trado.controller.HttpMethod;
 import org.trado.controller.Route;
 import org.trado.controller.TradoController;
 import org.trado.http.Method;
+import org.trado.session.SessionFilter;
 
 class TradoHandler implements Handler {
 
@@ -28,6 +29,9 @@ class TradoHandler implements Handler {
         this.responseFilters = new Filters<>();
         this.executor =  Executors.newCachedThreadPool();
         this.tradoLogger = tradoLogger;
+        if(tradoOptions.useSession()) {
+            this.requestFilters.add("*", 1, new SessionFilter()::apply);
+        }
     }
 
     TradoHandler initController(String uri, Class<? extends TradoController> controller){    

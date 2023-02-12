@@ -3,10 +3,13 @@ package org.trado;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.microhttp.Header;
 import org.microhttp.Request;
+import org.trado.http.Cookie;
 /**
  * Request wrapper for some things
  */
@@ -15,6 +18,7 @@ public class TradoRequest {
     private final Map<String, String> params; 
     private final String path;
     private final TradoOptions options;
+    private final Map<String, Cookie> cookies;
 
     public TradoRequest(Request request, TradoOptions tradoOptions){
         this.options = tradoOptions;
@@ -22,6 +26,7 @@ public class TradoRequest {
         params = new HashMap<>();
         this.path = request.uri().split("\\?")[0];
         mapParams();
+        this.cookies = new HashMap<>();
     }
 
     private void mapParams() {
@@ -74,4 +79,5 @@ public class TradoRequest {
         var param = this.request.uri().split("/")[wildCardPosition];
         params.put(wildCardKey, param);
     }
+
 }
