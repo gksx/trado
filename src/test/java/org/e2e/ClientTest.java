@@ -189,27 +189,23 @@ public class ClientTest {
     }
 
     @Test
-    public void some_50_or_so_requests_in_parallel() throws Exception {
+    public void some_50_or_so_requests_in_parallel() {
          Callable<?> callable = () -> {
             return new ForkJoinPool(50).submit(()-> {
-                IntStream.range(0, 50).parallel().forEach(i -> {
-                    try {
-                        var s = getRequest(BASE_URL + "/home").body();
-                        assertNotNull(s);
-                        
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+                IntStream.range(0, 50).parallel().forEach(i -> assertNotNull(getRequest(BASE_URL + "/home").body()));
             }).get();
          };
 
          logAndRun(callable);
     }
 
-    private void logAndRun(Callable<?> callable) throws Exception {
+    private void logAndRun(Callable<?> callable)  {
         long startTime = System.currentTimeMillis();
-        callable.call();
+        try {
+            callable.call();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(("took " + (System.currentTimeMillis() - startTime) + " milliseconds"));
     }
 
