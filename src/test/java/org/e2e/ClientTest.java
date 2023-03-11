@@ -22,7 +22,7 @@ import org.trado.http.ContentType;
 
 public class ClientTest {
 
-    private static String baseUrl = "http://localhost:8080";
+    private static final String BASE_URL = "http://localhost:8080";
     
 
     @BeforeAll
@@ -37,131 +37,131 @@ public class ClientTest {
 
     @Test
     public void expect_200_status() {
-        var response = getRequest(baseUrl);
+        var response = getRequest(BASE_URL);
         assertEquals(response.statusCode(), 200);
         assertTrue(response.headers().firstValue("Content-Type").isPresent());
     }
 
     @Test
     public void expect_404_status() {
-        var response = getRequest(baseUrl + "/notThere");
+        var response = getRequest(BASE_URL + "/notThere");
         assertEquals(response.statusCode(), 404);
         assertTrue(response.body().contains("404"));
     }
 
     @Test
     public void expect_200_wiht_queryParams() {
-        var response = getRequest(baseUrl + "/home?q=foo");
+        var response = getRequest(BASE_URL + "/home?q=foo");
         assertTrue(response.body().contains("foo"));
     }
 
     @Test
     public void expect_decoded_query_param() {
         var encodedParam = URLEncoder.encode("foo and bar", StandardCharsets.UTF_8);
-        var response = getRequest(baseUrl + "/home?q=" + encodedParam);
+        var response = getRequest(BASE_URL + "/home?q=" + encodedParam);
         assertTrue(response.body().contains("foo and bar"));
     }
 
     @Test
     public void expect_foo_in_response_body() {
-        var response = getRequest(baseUrl);
+        var response = getRequest(BASE_URL);
         assertTrue(response.body().contains("foo"));
     }
 
     @Test
     public void expect_echo_in_response_body_from_controller()  {
-        var response = postRequest("hello!", baseUrl + "/home");
+        var response = postRequest("hello!", BASE_URL + "/home");
         assertTrue(response.body().equalsIgnoreCase("hello!"));
         assertEquals(response.statusCode(), 200);
     }
 
     @Test
     public void excpect_echo_in_response_body_from_action()  {
-        var response = postRequest("hello!", baseUrl + "/echo");
+        var response = postRequest("hello!", BASE_URL + "/echo");
         assertTrue(response.body().equalsIgnoreCase("hello!"));
         assertEquals(response.statusCode(), 200);
     }
 
     @Test
     public void expect_empty_response()  {
-        var response = getRequest(baseUrl + "/empty");
-        assertTrue(response.body().length() == 0);
+        var response = getRequest(BASE_URL + "/empty");
+        assertEquals(0, response.body().length());
         assertEquals(response.statusCode(), 200);
     }
 
     @Test
     public void expect_internal_error()  {
-        var response = getRequest(baseUrl + "/home/error");
+        var response = getRequest(BASE_URL + "/home/error");
         assertEquals(500, response.statusCode());
         assertTrue(response.body().contains("500"));
     }
 
     @Test
     public void expect_content_type_application_json()  {
-        var response = getRequest(baseUrl + "/json");
-        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.APPLICATION_JSON));
+        var response = getRequest(BASE_URL + "/json");
+        assertEquals(ContentType.APPLICATION_JSON, response.headers().firstValue("Content-Type").orElseThrow());
         assertEquals(response.statusCode(), 200);
     }
 
     @Test
     public void expect_app_js_in_return() {
-        var response = getRequest(baseUrl + "/public/app.js");
+        var response = getRequest(BASE_URL + "/public/app.js");
         assertTrue(response.body().contains("hello world"));
-        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.APPLICATION_JAVASCRIPT));
+        assertEquals(ContentType.APPLICATION_JAVASCRIPT, response.headers().firstValue("Content-Type").orElseThrow());
     }
 
     @Test
     public void expect_style_css_in_return() {
-        var response = getRequest(baseUrl + "/public/styles.css");
+        var response = getRequest(BASE_URL + "/public/styles.css");
         assertTrue(response.body().contains("body"));
-        assertTrue(response.headers().firstValue("Content-Type").get().equals(ContentType.TEXT_CSS));
+        assertEquals(ContentType.TEXT_CSS, response.headers().firstValue("Content-Type").orElseThrow());
     }
 
     @Test
     public void expect_away_route() {
-        var response = getRequest(baseUrl + "/home/away");
+        var response = getRequest(BASE_URL + "/home/away");
         assertEquals(200, response.statusCode());
     }
 
     @Test
     public void expect_end_from_filter() {
-        var response = getRequest(baseUrl + "/filter");
+        var response = getRequest(BASE_URL + "/filter");
         assertEquals(404, response.statusCode());
     }
 
     @Test
     public void expect_header_from_filter()  {
-        var response = getRequest(baseUrl + "/after-filter");
-        var header = response.headers().firstValue("x-user").get();
+        var response = getRequest(BASE_URL + "/after-filter");
+        var header = response.headers().firstValue("x-user").orElseThrow();
         assertEquals("gksx", header);
     }
 
     @Test
     public void expect_second_header_from_filter()  {
-        var response = getRequest(baseUrl + "/after-filter");
-        var header = response.headers().firstValue("x-token").get();
+        var response = getRequest(BASE_URL + "/after-filter");
+        var header = response.headers().firstValue("x-token").orElseThrow();
         assertEquals("token", header);
     }
 
     @Test
     public void expect_header_from_filter_not_existing()  {
-        var response = getRequest(baseUrl + "/home");
+        var response = getRequest(BASE_URL + "/home");
         var header = response.headers().firstValue("x-user");
         assertFalse(header.isPresent());
     }
 
     @Test
     public void expect_emmpty_from_group()  {
-        var response = getRequest(baseUrl + "/group");
-        assertTrue(response.body().length() == 0);
-        assertTrue(response.statusCode() == 200);
+        var response = getRequest(BASE_URL + "/group");
+        assertEquals(0, response.body().length());
+        assertEquals(200, response.statusCode());
     }
 
     @Test
     public void expect_emmpty_from_group_post()  {
-        var response = postRequest("",baseUrl + "/group");
-        assertTrue(response.body().length() == 0);
-        assertTrue(response.statusCode() == 200);
+        var response = postRequest("", BASE_URL + "/group");
+        assertEquals(0, response.body().length());
+        assertEquals(200, response.statusCode());
     }
 
     @Test
@@ -172,14 +172,14 @@ public class ClientTest {
         
         array[0] = CompletableFuture.runAsync(()-> {
             try {
-                getRequest(baseUrl + "/threads");
+                getRequest(BASE_URL + "/threads");
             } catch (Exception e) {
                 e.printStackTrace();
             }
             }, executor);
         array[1] = CompletableFuture.runAsync(()-> {
             try {
-                postRequest("", baseUrl + "/threads");
+                postRequest("", BASE_URL + "/threads");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -194,7 +194,7 @@ public class ClientTest {
             return new ForkJoinPool(50).submit(()-> {
                 IntStream.range(0, 50).parallel().forEach(i -> {
                     try {
-                        var s = getRequest(baseUrl + "/home").body();
+                        var s = getRequest(BASE_URL + "/home").body();
                         assertNotNull(s);
                         
                     } catch (Exception e) {
@@ -218,7 +218,7 @@ public class ClientTest {
         var numberOfRequests = 50;
         var array = new CompletableFuture[numberOfRequests];
         for (int i = 0; i < numberOfRequests; i++) {
-            array[i] = getAsync(baseUrl + "/home");    
+            array[i] = getAsync(BASE_URL + "/home");
         }
 
         CompletableFuture.allOf(array).join();
@@ -226,7 +226,7 @@ public class ClientTest {
 
     @Test
     public void test_route_params()  {
-        var request = getRequest(baseUrl + "/params/foo");
+        var request = getRequest(BASE_URL + "/params/foo");
         assertTrue(request.body().contains("foo"));
     }
 
