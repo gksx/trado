@@ -1,8 +1,5 @@
 package org.trado.session;
 
-public record Session(String id, long ttl, boolean authenticated) {
-    
-    byte[] cookie() {
-        return id.getBytes();
-    }
-}
+import java.util.UUID;
+
+public record Session(UUID id, long ttl, boolean valid) { }

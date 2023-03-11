@@ -14,6 +14,11 @@ class Filters<T> {
         routeTrie.insert(path, Integer.toString(order), new RouteAction<T>(filter));
     }
 
+    void add(String path, T filter) {
+        var newOrder = routeTrie.size(path) + 1;
+        routeTrie.insert(path, Integer.toString(newOrder), new RouteAction<T>(filter));
+    }
+
     Optional<RouteAction<T>> get(String path, int order) {
        var requestFilter = routeTrie.action(path, Integer.toString(order));
        return Optional.ofNullable(requestFilter);

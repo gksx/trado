@@ -96,6 +96,7 @@ public class TestServer {
         trado.stop();
         try {
             serverThread.join();
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

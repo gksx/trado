@@ -25,13 +25,35 @@ public class TradoRequest {
         this.request = request;
         params = new HashMap<>();
         this.path = request.uri().split("\\?")[0];
-        mapParams();
-        this.cookies = new HashMap<>();
+        queryParams();       
+        this.cookies = mapHeadersToCookies(request.headers());
     }
 
-    private void mapParams() {
-        queryParams();
-    }    
+    private Map<String, Cookie> mapHeadersToCookies(List<Header> headers) {
+        var cookieHeader = headers.stream()
+            .filter(h -> h.name().equalsIgnoreCase("cookie"))
+            .findFirst()
+            .map(Header::value);
+
+
+        Map<String,Cookie> map = new HashMap<>();
+
+        if (cookieHeader.isPresent()) {
+            var arr = cookieHeader.get().split(";");
+
+            for (String string : arr) {
+                var cookie = Cookie.fromHeader(string);
+                map.put(cookie.name(), cookie);
+            }
+        }
+            
+        return map;
+    }
+
+    public Optional<Cookie> cookie(String name) {
+        return Optional.ofNullable(cookies.get(name));
+    }
+
 
     private void queryParams() {
         try {
@@ -79,5 +101,4 @@ public class TradoRequest {
         var param = this.request.uri().split("/")[wildCardPosition];
         params.put(wildCardKey, param);
     }
-
 }

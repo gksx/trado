@@ -90,7 +90,12 @@ public class Trado {
     }
 
     public void stop(){
-        eventLoop.stop();        
+        try {
+            eventLoop.stop();
+            eventLoop.join();
+        } catch (InterruptedException e) {
+            throw new TradoException("could not stop microhttp", e);
+        }        
     }
 
     private String banner(){
