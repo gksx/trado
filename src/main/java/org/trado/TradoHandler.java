@@ -36,7 +36,7 @@ class TradoHandler implements Handler {
         }
     }
 
-    TradoHandler initController(String uri, Class<? extends TradoController> controller) {
+    void initController(String uri, Class<? extends TradoController> controller) {
         for (java.lang.reflect.Method m : controller.getMethods()) {
             var httpMethod = m.getAnnotation(HttpMethod.class);
             if (httpMethod == null) {
@@ -64,13 +64,10 @@ class TradoHandler implements Handler {
                 }
             });
         }
-
-        return this;
     }
 
-    TradoHandler addAction(String uri, Method method, Action action) {
+    void addAction(String uri, Method method, Action action) {
         routes.add(uri, method.name(), action);
-        return this;
     }
 
     @Override

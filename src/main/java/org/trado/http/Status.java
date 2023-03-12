@@ -17,7 +17,7 @@ public enum Status {
     private final int statusCode;
     private final String reason;
 
-    private Status(int statusCode, String reason) {
+    Status(int statusCode, String reason) {
         this.statusCode = statusCode;
         this.reason = reason;
     }

@@ -1,7 +1,7 @@
 package org.trado;
 
 class RouteTrie<V extends RouteAction<?>> {
-    private TrieNode<String, V> root;
+    private final TrieNode<String, V> root;
 
     public RouteTrie() {
         root = new TrieNode<>();
@@ -21,9 +21,9 @@ class RouteTrie<V extends RouteAction<?>> {
         
         action.wildCardPosition(pos);
         if (actualKey.length() > 0)
-            action.wildCardKey(actualKey.substring(1, actualKey.length()));
+            action.wildCardKey(actualKey.substring(1));
 
-        current.addMethodAction(identifier, action);
+        current.member(identifier, action);
         
     }
 

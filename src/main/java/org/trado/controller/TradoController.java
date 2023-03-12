@@ -22,19 +22,19 @@ public abstract class TradoController {
     }
 
     private static final String errorPage(int statusCode){
-        return String.format("""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
-            <title>TRADO _ ERROR </title>
-        </head>
-        <body>
-            <h1>ERROR GROWL FROM TRADO - %d</h1>
-        </body>
-        </html>
-        """, statusCode);
+        return """
+               <!DOCTYPE html>
+               <html lang="en">
+               <head>
+                   <meta charset="UTF-8">
+                   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                   <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+                   <title>TRADO _ ERROR </title>
+               </head>
+               <body>
+                   <h1>ERROR GROWL FROM TRADO - %d</h1>
+               </body>
+               </html>
+               """.formatted(statusCode);
     }
 }

@@ -5,25 +5,25 @@ import java.util.Map;
 
 class TrieNode<K, V> {
     private final Map<K, TrieNode<K, V>> children;
-    private final Map<K, V> methodActions;
+    private final Map<K, V> members;
     TrieNode() {
         children = new HashMap<>();
-        methodActions = new HashMap<>();
+        members = new HashMap<>();
     }
 
     Map<K, TrieNode<K, V>> children(){
         return children;
     }
 
-    void addMethodAction(K key, V value) {
-        methodActions.put(key, value);
+    void member(K key, V value) {
+        members.put(key, value);
     }
 
     V action(K key) {
-        return methodActions.get(key);
+        return members.get(key);
     }
 
     int size() {
-        return methodActions.size();
+        return members.size();
     }
 }
