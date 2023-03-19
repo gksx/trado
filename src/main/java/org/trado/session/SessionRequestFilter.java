@@ -6,12 +6,10 @@ import org.trado.TradoRequest;
 
 public class SessionRequestFilter {
     public void apply(TradoRequest tradoRequest) {
-        
-        tradoRequest.cookie("trado-session")
+        tradoRequest.cookie(Store.SESSION_IDENTIFER)
             .ifPresent(cookie -> {
                 var session = Store.INSTANCE.validate(UUID.fromString(cookie.value()));
-                // tradoRequest.session(session);
+                tradoRequest.session(session);
             });
-
     }
 }

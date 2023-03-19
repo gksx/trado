@@ -10,6 +10,8 @@ import java.util.Optional;
 import org.microhttp.Header;
 import org.microhttp.Request;
 import org.trado.http.Cookie;
+import org.trado.session.Session;
+
 /**
  * Request wrapper for some things
  */
@@ -19,6 +21,7 @@ public class TradoRequest {
     private final String path;
     private final TradoOptions options;
     private final Map<String, Cookie> cookies;
+    private Session session;
 
     public TradoRequest(Request request, TradoOptions tradoOptions){
         this.options = tradoOptions;
@@ -100,5 +103,9 @@ public class TradoRequest {
     void mapRouteParams(int wildCardPosition, String wildCardKey) {
         var param = this.request.uri().split("/")[wildCardPosition];
         params.put(wildCardKey, param);
+    }
+
+    public void session(Session session) {
+        this.session = session;
     }
 }

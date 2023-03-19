@@ -7,12 +7,12 @@ import java.util.UUID;
 
 class Store {
     private static final Map<UUID, TimedSession> store = new HashMap<>();
-    public static Store INSTANCE = new Store();
+    public static final Store INSTANCE = new Store();
     private static final long TTL_SECONDS = 5L;
 
-    private Store() {
+    static final String SESSION_IDENTIFER = "trado-session";
 
-    }
+    private Store() {}
 
     private void add(Session session) {
         store.put(session.id(), new TimedSession(session, Instant.now()));
