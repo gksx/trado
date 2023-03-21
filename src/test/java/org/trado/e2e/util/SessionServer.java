@@ -1,4 +1,4 @@
-package org.e2e.util;
+package org.trado.e2e.util;
 
 import org.trado.Trado;
 import org.trado.TradoOptions;
@@ -14,7 +14,10 @@ public class SessionServer {
             .withSession();
 
         trado = new Trado(options).port(8081)
-            .get("/", (req)-> TradoResponse.empty().build());
+            .get("/", (req) -> {
+                req.session().orElseThrow();
+                return TradoResponse.empty().build();
+            });
 
 
         serverThread = new Thread(trado::growl);

@@ -1,9 +1,9 @@
-package org.e2e;
+package org.trado.e2e;
 
 import java.util.UUID;
 
-import org.e2e.util.Client;
-import org.e2e.util.SessionServer;
+import org.trado.e2e.util.Client;
+import org.trado.e2e.util.SessionServer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

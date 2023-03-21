@@ -1,4 +1,4 @@
-package org.e2e.util;
+package org.trado.e2e.util;
 
 import java.net.URI;
 import java.net.http.HttpClient;

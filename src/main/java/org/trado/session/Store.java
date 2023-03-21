@@ -10,7 +10,7 @@ class Store {
     public static final Store INSTANCE = new Store();
     private static final long TTL_SECONDS = 5L;
 
-    static final String SESSION_IDENTIFER = "trado-session";
+    static final String SESSION_IDENTIFIER = "trado-session";
 
     private Store() {}
 

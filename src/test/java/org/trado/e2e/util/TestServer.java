@@ -1,6 +1,6 @@
-package org.e2e.util;
+package org.trado.e2e.util;
 
-import org.e2e.util.controller.HomeController;
+import org.trado.e2e.util.controller.HomeController;
 import org.trado.Trado;
 import org.trado.TradoOptions;
 import org.trado.TradoResponse;

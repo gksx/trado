@@ -1,4 +1,4 @@
-package org.e2e.util.controller;
+package org.trado.e2e.util.controller;
 
 import org.trado.TradoException;
 import org.trado.TradoRequest;

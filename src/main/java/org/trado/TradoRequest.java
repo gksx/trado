@@ -84,7 +84,7 @@ public class TradoRequest {
         return path;
     }
 
-    public TradoOptions options() {
+    TradoOptions options() {
         return options;
     }
 
@@ -107,5 +107,9 @@ public class TradoRequest {
 
     public void session(Session session) {
         this.session = session;
+    }
+
+    public Optional<Session> session() {
+        return Optional.ofNullable(session);
     }
 }
