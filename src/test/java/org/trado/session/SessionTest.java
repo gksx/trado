@@ -3,7 +3,6 @@ package org.trado.session;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Duration;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
