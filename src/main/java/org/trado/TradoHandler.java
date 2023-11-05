@@ -28,7 +28,7 @@ class TradoHandler implements Handler {
         this.routes = new Routes();
         this.requestFilters = new Filters<>();
         this.responseFilters = new Filters<>();
-        this.executor = Executors.newCachedThreadPool();
+        this.executor = Executors.newVirtualThreadPerTaskExecutor();
         this.tradoLogger = tradoLogger;
         if (tradoOptions.useSession()) {
             this.requestFilters.add("/", new SessionRequestFilter()::apply);
