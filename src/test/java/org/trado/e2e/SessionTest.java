@@ -20,7 +20,6 @@ public class SessionTest {
         server.stop();
     }
 
-
     @Test
     @Disabled
     public void test() throws InterruptedException {

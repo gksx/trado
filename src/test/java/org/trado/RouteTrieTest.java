@@ -4,12 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+import org.microhttp.Request;
 
 
-public class TrieTest {
+public class RouteTrieTest {
     
     public static final RouteAction<Action> stubAction = new RouteAction<Action>((req) -> TradoResponse.empty().brew().build());
+
+    private static TradoRequest MOCK_REQUEST = new TradoRequest(
+        new Request("", "", "", List.of(), new byte[0])
+        , new TradoOptions());
 
     @Test
     public void test_insert(){
@@ -37,6 +44,8 @@ public class TrieTest {
         trie.insert("/home/error", "GET", stubAction);
         trie.insert("/home/away", "GET", stubAction);
         trie.insert("/home/away", "POST", stubAction);
+        var response = trie.action("/home/away", "POST");
+        assertEquals(response, stubAction);
     }
 
     @Test
@@ -46,6 +55,5 @@ public class TrieTest {
         trie.insert("/home/away", "POST", stubAction);
         var actual = trie.size("/home/away");
         assertEquals(2, actual);
-
     }
 }

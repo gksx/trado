@@ -76,7 +76,7 @@ public class TestServer {
                 });
                 trado.post(path, (req) -> {
                     try {
-                        System.out.println(Thread.currentThread().getName() + "is sleeping");
+                        System.out.println(Thread.currentThread().getName() + "is not sleeping");
                     } catch (Exception e) {
                     }
                     return TradoResponse.empty().build();
@@ -93,8 +93,8 @@ public class TestServer {
 
     public static void stop() {
         System.out.println("stopping " + serverThread.getName());
-        trado.stop();
         try {
+            trado.stop();
             serverThread.join();
             Thread.sleep(500);
         } catch (InterruptedException e) {
