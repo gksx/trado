@@ -6,19 +6,15 @@ import java.util.Properties;
 
 public class Property {
 
-    private static Properties properties = null;
+    private static final Properties properties;
 
     static {
         properties = new Properties();
-        InputStream is = ClassLoader.getSystemClassLoader()
-            .getResourceAsStream("application.properties");
-        try {
+        try (InputStream is = ClassLoader.getSystemClassLoader()
+                .getResourceAsStream("application.properties")) {
             properties.load(is);
-        } catch (IOException e) { }
-        finally {
-            try {
-                is.close();
-            } catch (IOException e) {}
+        } catch (IOException e) {
+            throw new TradoException(e);
         }
     }
     
